@@ -1955,20 +1955,21 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <label x="-157.48" y="-111.76" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="J3" gate="-3" pin="S"/>
-<wire x1="-154.94" y1="-121.92" x2="-147.32" y2="-121.92" width="0.1524" layer="91"/>
+<pinref part="J3" gate="-1" pin="S"/>
+<wire x1="-154.94" y1="-132.08" x2="-147.32" y2="-132.08" width="0.1524" layer="91"/>
+<label x="-152.4" y="-132.08" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="J4" gate="-3" pin="S"/>
-<wire x1="-154.94" y1="-144.78" x2="-147.32" y2="-144.78" width="0.1524" layer="91"/>
+<pinref part="J4" gate="-1" pin="S"/>
+<wire x1="-154.94" y1="-154.94" x2="-147.32" y2="-154.94" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="J5" gate="-3" pin="S"/>
-<wire x1="-154.94" y1="-165.1" x2="-147.32" y2="-165.1" width="0.1524" layer="91"/>
+<pinref part="J5" gate="-1" pin="S"/>
+<wire x1="-154.94" y1="-175.26" x2="-147.32" y2="-175.26" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="J6" gate="-3" pin="S"/>
-<wire x1="-154.94" y1="-185.42" x2="-147.32" y2="-185.42" width="0.1524" layer="91"/>
+<pinref part="J6" gate="-1" pin="S"/>
+<wire x1="-154.94" y1="-195.58" x2="-147.32" y2="-195.58" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+5V" class="1">
@@ -2020,6 +2021,7 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <segment>
 <pinref part="J3" gate="-2" pin="S"/>
 <wire x1="-154.94" y1="-127" x2="-147.32" y2="-127" width="0.1524" layer="91"/>
+<label x="-152.4" y="-127" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="J4" gate="-2" pin="S"/>
@@ -2083,20 +2085,21 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <wire x1="-76.2" y1="-78.74" x2="-78.74" y2="-78.74" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="J3" gate="-1" pin="S"/>
-<wire x1="-154.94" y1="-132.08" x2="-147.32" y2="-132.08" width="0.1524" layer="91"/>
+<pinref part="J3" gate="-3" pin="S"/>
+<wire x1="-154.94" y1="-121.92" x2="-147.32" y2="-121.92" width="0.1524" layer="91"/>
+<label x="-152.4" y="-121.92" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="J4" gate="-1" pin="S"/>
-<wire x1="-154.94" y1="-154.94" x2="-147.32" y2="-154.94" width="0.1524" layer="91"/>
+<pinref part="J4" gate="-3" pin="S"/>
+<wire x1="-154.94" y1="-144.78" x2="-147.32" y2="-144.78" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="J5" gate="-1" pin="S"/>
-<wire x1="-154.94" y1="-175.26" x2="-147.32" y2="-175.26" width="0.1524" layer="91"/>
+<pinref part="J5" gate="-3" pin="S"/>
+<wire x1="-154.94" y1="-165.1" x2="-147.32" y2="-165.1" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="J6" gate="-1" pin="S"/>
-<wire x1="-154.94" y1="-195.58" x2="-147.32" y2="-195.58" width="0.1524" layer="91"/>
+<pinref part="J6" gate="-3" pin="S"/>
+<wire x1="-154.94" y1="-185.42" x2="-147.32" y2="-185.42" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="BOILER" class="0">

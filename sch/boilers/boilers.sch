@@ -2083,6 +2083,7 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <wire x1="-40.64" y1="-50.8" x2="-76.2" y2="-50.8" width="0.1524" layer="91"/>
 <wire x1="-76.2" y1="-50.8" x2="-76.2" y2="-78.74" width="0.1524" layer="91"/>
 <wire x1="-76.2" y1="-78.74" x2="-78.74" y2="-78.74" width="0.1524" layer="91"/>
+<label x="-68.58" y="-50.8" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="J3" gate="-3" pin="S"/>
@@ -2232,31 +2233,34 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <wire x1="-124.46" y1="-81.28" x2="-119.38" y2="-81.28" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$4" class="0">
+<net name="LED_DATA" class="0">
 <segment>
 <pinref part="U$1" gate="G$1" pin="5/OC0B/T1/PCINT21"/>
 <wire x1="-40.64" y1="-40.64" x2="-55.88" y2="-40.64" width="0.1524" layer="91"/>
 <wire x1="-55.88" y1="-40.64" x2="-55.88" y2="-30.48" width="0.1524" layer="91"/>
 <pinref part="DISPLAY" gate="-1" pin="S"/>
 <wire x1="-55.88" y1="-30.48" x2="-58.42" y2="-30.48" width="0.1524" layer="91"/>
+<label x="-53.34" y="-40.64" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$5" class="0">
+<net name="LED_CS" class="0">
 <segment>
 <pinref part="DISPLAY" gate="-2" pin="S"/>
 <wire x1="-58.42" y1="-25.4" x2="-53.34" y2="-25.4" width="0.1524" layer="91"/>
 <wire x1="-53.34" y1="-25.4" x2="-53.34" y2="-38.1" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="4/XCK/T0/PCINT20"/>
 <wire x1="-53.34" y1="-38.1" x2="-40.64" y2="-38.1" width="0.1524" layer="91"/>
+<label x="-53.34" y="-38.1" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$6" class="0">
+<net name="LED_CLOCK" class="0">
 <segment>
 <pinref part="U$1" gate="G$1" pin="3/INT1/OC2B/PCINT19"/>
 <wire x1="-40.64" y1="-35.56" x2="-50.8" y2="-35.56" width="0.1524" layer="91"/>
 <wire x1="-50.8" y1="-35.56" x2="-50.8" y2="-20.32" width="0.1524" layer="91"/>
 <pinref part="DISPLAY" gate="-3" pin="S"/>
 <wire x1="-50.8" y1="-20.32" x2="-58.42" y2="-20.32" width="0.1524" layer="91"/>
+<label x="-55.88" y="-20.32" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="CLOCK" class="0">
@@ -2264,6 +2268,7 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <pinref part="U$1" gate="G$1" pin="7/AIN1/PCINT23"/>
 <wire x1="-40.64" y1="-45.72" x2="-78.74" y2="-45.72" width="0.1524" layer="91"/>
 <wire x1="-78.74" y1="-45.72" x2="-78.74" y2="-76.2" width="0.1524" layer="91"/>
+<label x="-71.12" y="-45.72" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="IC2" gate="A" pin="SCL"/>
