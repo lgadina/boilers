@@ -30,18 +30,23 @@
 
 // занятые ноги
 
+#define EXT_CS_IN 14
+// 13
+// 12
+// 11
 #define SD_CS_PIN 10
 #define TEMP_SENSOR_PIN 9
 #define BOILER_RELAY EXT_OUT_1
 #define PUMP_RELAY EXT_OUT_2
 #define EXT_CS 8
 #define EXT_CLOCK 7
-#define EXT_DATA 6
-#define LED_DATA_PIN 5 //MOSI
-#define LED_CS_PIN 4   //CS
-#define LED_CLOCK_PIN 3 //CLK
+#define EXT_DATA_OUT 6
+#define EXT_DATA_IN 5
+#define LED_DATA_PIN 4 //MOSI
+#define LED_CS_PIN 3   //CS
+#define LED_CLOCK_PIN 2 //CLK
 
-//2
+
 #define TX 1
 #define RX 0
 
@@ -180,7 +185,8 @@ const char cminus = '-';
 const char cstar = '*';
 
 OneWire  ds(TEMP_SENSOR_PIN);  // on pin 10 (a 4.7K resistor is necessary)
-SPI_Bus bus(_8bit, EXT_CS, EXT_CLOCK, EXT_DATA, 0);
+SPI_Bus bus(_8bit, EXT_CS, EXT_CLOCK, EXT_DATA_OUT, EXT_DATA_IN);
+//SPI_Bus bus_in (_8bit, EXT_CS_IN, EXT_CLOCK, EXT_DATA_OUT, EXT_DATA_IN);
 
 LedControl lc=LedControl(LED_DATA_PIN, LED_CLOCK_PIN, LED_CS_PIN, 3);
 RTC_DS1307 rtc;
@@ -848,8 +854,21 @@ void printState() {
 }
 
 
+void input_data () {
+ digitalWrite(EXT_CS_IN, LOW);
+ digitalWrite(EXT_CLOCK, LOW);
+ digitalWrite(EXT_CLOCK, HIGH);
+ digitalWrite(EXT_CS_IN, HIGH);
+ byte input = shiftIn(EXT_DATA_IN, EXT_CLOCK, MSBFIRST);
+ Serial.println(input, BIN);
+}
+
 void setup(void) {
 //  pinMode(13, OUTPUT);
+  pinMode(EXT_CS_IN, OUTPUT);
+  digitalWrite(EXT_CS_IN, HIGH);
+  pinMode(EXT_DATA_IN, INPUT);
+  
   bus.lineConfig(BOILER_RELAY, OUTPUT);
   bus.lineConfig(PUMP_RELAY, OUTPUT);
   boiler_off(true);  
@@ -954,6 +973,8 @@ void loop(void) {
      clear_indicator(2, 4);
    }
  }
+ 
+ input_data();
  
 }
 
