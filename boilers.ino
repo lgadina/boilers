@@ -6,9 +6,9 @@
 #include <RTClib.h>
 #include <SerialCommand.h>
 #include <SPI.h>
-#include <LineDriver.h>
-#include <SPI_Bus.h>
-
+//include <LineDriver.h>
+//include <SPI_Bus.h>
+#include <string.h>
 
 #define TS_ON 0x80
 #define TS_ERROR 0x40
@@ -19,14 +19,14 @@
 #define TEMP_ERROR -100
 #define PUMP_OFF_DELAY 60
 
-#define EXT_OUT_1 1
-#define EXT_OUT_2 2
-#define EXT_OUT_3 3
-#define EXT_OUT_4 4
-#define EXT_OUT_5 5
-#define EXT_OUT_6 6
-#define EXT_OUT_7 7
-#define EXT_OUT_8 8
+#define EXT_OUT_1 0
+#define EXT_OUT_2 1
+#define EXT_OUT_3 2
+#define EXT_OUT_4 3
+#define EXT_OUT_5 4
+#define EXT_OUT_6 5
+#define EXT_OUT_7 6
+#define EXT_OUT_8 7
 
 // занятые ноги
 
@@ -50,9 +50,9 @@
 #define TX 1
 #define RX 0
 
-#define BOILER_ON 0x80
-#define PUMP_ON 0x40
-#define BOILER_TIMER_ON 0x20
+#define BOILER_ON 0x01
+#define PUMP_ON 0x02
+#define BOILER_TIMER_ON 0x04
 #define temp9bit
 
 #ifdef temp12bit
@@ -119,6 +119,7 @@
 #define cstrON 22
 #define cstrOFF 23
 #define cstrInitSD 24
+#define cstrBOILER_TIMER 25
 
 prog_char str_FreeMemory[] PROGMEM = "Free RAM:";
 prog_char str_LoadAndInit[] PROGMEM = "INIT";
@@ -145,6 +146,7 @@ prog_char str_PUMP[] PROGMEM = "PUMP";
 prog_char str_ON[] PROGMEM = "ON";
 prog_char str_OFF[] PROGMEM = "OFF";
 prog_char str_InitSD[] PROGMEM = "INIT_SD";
+prog_char str_BOILER_TIMER[] PROGMEM = "BOILER_TIMER";
 
 PROGMEM const char *string_table[] = {
     str_FreeMemory,
@@ -171,8 +173,8 @@ PROGMEM const char *string_table[] = {
     str_PUMP,
     str_ON,
     str_OFF,
-    str_InitSD
-    
+    str_InitSD,
+    str_BOILER_TIMER    
 };
 
 const char cpoint = '.';
@@ -185,7 +187,7 @@ const char cminus = '-';
 const char cstar = '*';
 
 OneWire  ds(TEMP_SENSOR_PIN);  // on pin 10 (a 4.7K resistor is necessary)
-SPI_Bus bus(_8bit, EXT_CS, EXT_CLOCK, EXT_DATA_OUT, EXT_DATA_IN);
+//SPI_Bus bus(_8bit, EXT_CS, EXT_CLOCK, EXT_DATA_OUT, EXT_DATA_IN);
 //SPI_Bus bus_in (_8bit, EXT_CS_IN, EXT_CLOCK, EXT_DATA_OUT, EXT_DATA_IN);
 
 LedControl lc=LedControl(LED_DATA_PIN, LED_CLOCK_PIN, LED_CS_PIN, 3);
@@ -633,6 +635,51 @@ void cmd_boiler() {
   }
 }
 
+void cmd_datetime () {
+  char *arg;
+  DateTime now = rtc.now();
+  if (!rtc.isrunning()) {
+    SerialPrintln(cstrRTCIsNotRunning);
+  }
+  arg = SCmd.next();
+    if (strcmp(arg, "t")==0) {
+      arg = SCmd.next();
+      if (arg != NULL) {
+        byte h = atoi(strtok_r(arg, ":", &arg));
+        byte m = atoi(strtok_r(arg, ":", &arg));
+        byte s = atoi(arg);
+        DateTime newdate(now.year(), now.month(), now.day(), h, m, s);
+        rtc.adjust(newdate);
+      }
+    }
+    else
+    if (strcmp(arg, "d") == 0) {
+      arg = SCmd.next();
+      if (arg != NULL) {
+        byte d = atoi(strtok_r(arg, ".", &arg));
+        byte m = atoi(strtok_r(arg, ".", &arg));
+        uint16_t y = atoi(arg);
+        DateTime newdate(y, m, d, now.hour(), now.minute(), now.second());
+        rtc.adjust(newdate);
+      }
+    }
+    
+    now = rtc.now();  
+    Serial.print(now.hour());
+    Serial.write(ccolon);
+    Serial.print(now.minute());
+    Serial.write(ccolon);
+    Serial.print(now.second());    
+    Serial.write(cspace);
+    Serial.print(now.day());
+    Serial.print(cpoint);
+    Serial.print(now.month());
+    Serial.print(cpoint);
+    Serial.println(now.year());
+    Serial.println(cpoint);
+  
+}
+
 void list_temp_sensor(){
   byte argNum;
   char *arg;
@@ -781,6 +828,13 @@ char get_temp_at_display(byte disp) {
   return TEMP_ERROR;
 }
 
+void out_relay_state() {
+ digitalWrite(EXT_CLOCK, LOW); 
+ digitalWrite(EXT_CS, LOW);
+ shiftOut(EXT_DATA_OUT, EXT_CLOCK, MSBFIRST, ~relay_state);
+ digitalWrite(EXT_CS, HIGH); 
+}
+
 
 boolean boiler_on(boolean force) {
   char ts = get_temp_at_display(ANTIFREEZE_DISP);
@@ -791,14 +845,16 @@ boolean boiler_on(boolean force) {
     }  else
     //digitalWrite(BOILER_RELAY, LOW);
     if (!is_boiler_on()) {
-      bus.lineWrite(BOILER_RELAY, LOW);
+      //bus.lineWrite(BOILER_RELAY, LOW);      
       relay_state |= BOILER_ON;
+      
       boiler_on_time = now;
       //digitalWrite(PUMP_RELAY, LOW);
-      bus.lineWrite(PUMP_RELAY, LOW);
-      relay_state |= PUMP_ON;
+      //bus.lineWrite(PUMP_RELAY, LOW);
+      relay_state |= PUMP_ON;     
       pump_on_time = now;
     }
+    out_relay_state();
     return is_boiler_on();
   }
   else {
@@ -811,9 +867,10 @@ boolean boiler_on(boolean force) {
 void boiler_off(boolean force) {
   char ts=get_temp_at_display(ANTIFREEZE_DISP);
   if (((ts >= antifreeze_temp) & (is_boiler_on())) | (force) | (((relay_state & BOILER_TIMER_ON)>0) & (boiler_timer == 0))) {
-    bus.lineWrite(BOILER_RELAY, HIGH);
+//    bus.lineWrite(BOILER_RELAY, HIGH);
     //digitalWrite(BOILER_RELAY, HIGH);
     relay_state &= ~(BOILER_ON | BOILER_TIMER_ON);
+    out_relay_state();
     boiler_timer = 0;
     boiler_off_time = now;
     pump_off_delay = PUMP_OFF_DELAY;
@@ -823,18 +880,26 @@ void boiler_off(boolean force) {
 
 void pump_off() {
   //digitalWrite(PUMP_RELAY, HIGH);
-  bus.lineWrite(PUMP_RELAY, HIGH);
+  //bus.lineWrite(PUMP_RELAY, HIGH);  
   relay_state &= ~PUMP_ON;
+  out_relay_state();
   pump_off_time = now;
   printState();
 }
 
 boolean is_boiler_on(){
-  return (relay_state & BOILER_ON) >> 7;
+  return (relay_state & BOILER_ON);
 }
 
 boolean is_pump_on() {
-  return (relay_state & PUMP_ON) >> 6;
+  return (relay_state & PUMP_ON) >> 1;
+}
+
+boolean is_boiler_timer_on() {
+  if ((relay_state & BOILER_TIMER_ON) != 0) {
+    return true;
+  } else
+   return false;
 }
 
 int freeRam () {
@@ -850,6 +915,11 @@ void printState() {
   SerialPrint(cstrPUMP);
   Serial.write(cspace);
   SerialPrintln(is_pump_on() ? cstrON : cstrOFF);
+  if (is_boiler_timer_on()) {
+    SerialPrint(cstrBOILER_TIMER);
+    Serial.write(ccolon);
+    Serial.println(boiler_timer);
+  }
   Serial.println(cpoint);
 }
 
@@ -859,7 +929,7 @@ void input_data () {
  digitalWrite(EXT_CLOCK, LOW);
  digitalWrite(EXT_CLOCK, HIGH);
  digitalWrite(EXT_CS_IN, HIGH);
- byte input = shiftIn(EXT_DATA_IN, EXT_CLOCK, MSBFIRST);
+ byte input = shiftIn(EXT_DATA_IN, EXT_CLOCK, LSBFIRST);
  Serial.println(input, BIN);
 }
 
@@ -868,9 +938,14 @@ void setup(void) {
   pinMode(EXT_CS_IN, OUTPUT);
   digitalWrite(EXT_CS_IN, HIGH);
   pinMode(EXT_DATA_IN, INPUT);
+  pinMode(EXT_CS, OUTPUT);
+  digitalWrite(EXT_CS, HIGH);
+  pinMode(EXT_CLOCK, OUTPUT);
+  pinMode(EXT_DATA_OUT, OUTPUT);
   
-  bus.lineConfig(BOILER_RELAY, OUTPUT);
-  bus.lineConfig(PUMP_RELAY, OUTPUT);
+  
+  //bus.lineConfig(BOILER_RELAY, OUTPUT);
+  //bus.lineConfig(PUMP_RELAY, OUTPUT);
   boiler_off(true);  
   pump_off();
   Serial.begin(9600);
@@ -896,6 +971,7 @@ void setup(void) {
   SCmd.addCommand("lt", set_display_light);
   SCmd.addCommand("st", printState);
   SCmd.addCommand("bl", cmd_boiler);
+  SCmd.addCommand("dt", cmd_datetime);
   SCmd.addDefaultHandler(unrecognized);  
    
   search_ds();    
@@ -973,8 +1049,10 @@ void loop(void) {
      clear_indicator(2, 4);
    }
  }
- 
- input_data();
+// digitalWrite(7, HIGH);
+// delay(100);
+// digitalWrite(7, LOW);
+// input_data();
  
 }
 
