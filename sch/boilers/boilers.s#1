@@ -59,6 +59,7 @@
 <layer number="96" name="Values" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="97" name="Info" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="98" name="Guide" color="6" fill="1" visible="yes" active="yes"/>
+<layer number="99" name="SpiceOrder" color="5" fill="1" visible="yes" active="yes"/>
 <layer number="100" name="Muster" color="7" fill="1" visible="no" active="no"/>
 <layer number="101" name="Patch_Top" color="12" fill="4" visible="yes" active="yes"/>
 <layer number="102" name="Vscore" color="7" fill="1" visible="yes" active="yes"/>
@@ -1982,6 +1983,10 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <pinref part="SD" gate="-1" pin="S"/>
 <wire x1="-116.84" y1="-187.96" x2="-99.06" y2="-187.96" width="0.1524" layer="91"/>
 <label x="-116.84" y="-187.96" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="IC2" gate="A" pin="SER"/>
+<wire x1="-119.38" y1="-76.2" x2="-147.32" y2="-76.2" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+5V" class="1">
