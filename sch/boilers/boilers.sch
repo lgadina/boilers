@@ -6957,22 +6957,22 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <part name="J6" library="con-molex" deviceset="22-?-03" device="27-2031"/>
 <part name="J1" library="con-molex" deviceset="22-?-10" device="27-2101"/>
 <part name="S1" library="switch-omron" deviceset="10-XX" device=""/>
-<part name="LED1" library="led" deviceset="LED" device="5MM"/>
-<part name="R1" library="rcl" deviceset="R-EU_" device="0207/10"/>
-<part name="LED2" library="led" deviceset="LED" device="5MM"/>
-<part name="R2" library="rcl" deviceset="R-EU_" device="0207/10"/>
-<part name="LED3" library="led" deviceset="LED" device="5MM"/>
-<part name="R3" library="rcl" deviceset="R-EU_" device="0207/10"/>
-<part name="LED4" library="led" deviceset="LED" device="5MM"/>
-<part name="R4" library="rcl" deviceset="R-EU_" device="0207/10"/>
-<part name="LED5" library="led" deviceset="LED" device="5MM"/>
-<part name="R5" library="rcl" deviceset="R-EU_" device="0207/10"/>
-<part name="LED6" library="led" deviceset="LED" device="5MM"/>
-<part name="R6" library="rcl" deviceset="R-EU_" device="0207/10"/>
-<part name="LED7" library="led" deviceset="LED" device="5MM"/>
-<part name="R7" library="rcl" deviceset="R-EU_" device="0207/10"/>
-<part name="LED8" library="led" deviceset="LED" device="5MM"/>
-<part name="R8" library="rcl" deviceset="R-EU_" device="0207/10"/>
+<part name="LED1" library="led" deviceset="LED" device="5MM" value="АЛ307Б"/>
+<part name="R1" library="rcl" deviceset="R-EU_" device="0207/10" value="510"/>
+<part name="LED2" library="led" deviceset="LED" device="5MM" value="АЛ307Б"/>
+<part name="R2" library="rcl" deviceset="R-EU_" device="0207/10" value="510"/>
+<part name="LED3" library="led" deviceset="LED" device="5MM" value="АЛ307Б"/>
+<part name="R3" library="rcl" deviceset="R-EU_" device="0207/10" value="510"/>
+<part name="LED4" library="led" deviceset="LED" device="5MM" value="АЛ307Б"/>
+<part name="R4" library="rcl" deviceset="R-EU_" device="0207/10" value="510"/>
+<part name="LED5" library="led" deviceset="LED" device="5MM" value="АЛ307Б"/>
+<part name="R5" library="rcl" deviceset="R-EU_" device="0207/10" value="510"/>
+<part name="LED6" library="led" deviceset="LED" device="5MM" value="АЛ307Б"/>
+<part name="R6" library="rcl" deviceset="R-EU_" device="0207/10" value="510"/>
+<part name="LED7" library="led" deviceset="LED" device="5MM" value="АЛ307Б"/>
+<part name="R7" library="rcl" deviceset="R-EU_" device="0207/10" value="510"/>
+<part name="LED8" library="led" deviceset="LED" device="5MM" value="АЛ307Б"/>
+<part name="R8" library="rcl" deviceset="R-EU_" device="0207/10" value="510"/>
 <part name="P+3" library="supply1" deviceset="+5V" device=""/>
 </parts>
 <sheets>
@@ -7839,6 +7839,18 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 </nets>
 </sheet>
 </sheets>
+<errors>
+<approved hash="104,1,-114.3,-22.86,IC1P,VCC,+5V,,,"/>
+<approved hash="104,1,-114.3,-109.22,IC2P,VCC,+5V,,,"/>
+<approved hash="104,1,20.32,-55.88,U$1,VCC1,+5V,,,"/>
+<approved hash="103,1,20.32,-60.96,U$1,GND1,GND,,,"/>
+<approved hash="104,1,20.32,-58.42,U$1,VCC2,+5V,,,"/>
+<approved hash="103,1,20.32,-63.5,U$1,GND2,GND,,,"/>
+<approved hash="103,1,20.32,-66.04,U$1,GND3,GND,,,"/>
+<approved hash="103,1,20.32,-68.58,U$1,GND4,GND,,,"/>
+<approved hash="106,1,-162.56,-106.68,1HZ,,,,,"/>
+<approved hash="113,1,38.1,-15.6295,S1,,,,,"/>
+</errors>
 </schematic>
 </drawing>
 </eagle>
