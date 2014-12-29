@@ -2059,6 +2059,7 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <wire x1="25.4" y1="-66.04" x2="25.4" y2="-68.58" width="0.1524" layer="91"/>
 <junction x="25.4" y="-66.04"/>
 <junction x="25.4" y="-63.5"/>
+<junction x="25.4" y="-68.58"/>
 </segment>
 <segment>
 <pinref part="IC2" gate="P" pin="GND"/>
@@ -2201,10 +2202,6 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <pinref part="IC1" gate="A" pin="SER"/>
 <wire x1="-119.38" y1="-30.48" x2="-134.62" y2="-30.48" width="0.1524" layer="91"/>
 <label x="-132.08" y="-30.48" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="J1" gate="-9" pin="S"/>
-<wire x1="-53.34" y1="-147.32" x2="-63.5" y2="-147.32" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="J1" gate="-1" pin="S"/>
@@ -2540,8 +2537,9 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <wire x1="-93.98" y1="-81.28" x2="-86.36" y2="-81.28" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="J1" gate="-3" pin="S"/>
-<wire x1="-53.34" y1="-116.84" x2="-63.5" y2="-116.84" width="0.1524" layer="91"/>
+<pinref part="J1" gate="-4" pin="S"/>
+<wire x1="-53.34" y1="-121.92" x2="-63.5" y2="-121.92" width="0.1524" layer="91"/>
+<wire x1="-63.5" y1="-121.92" x2="-63.5" y2="-124.46" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="QD" class="0">
@@ -2550,9 +2548,11 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <wire x1="-93.98" y1="-83.82" x2="-86.36" y2="-83.82" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="J1" gate="-4" pin="S"/>
-<wire x1="-53.34" y1="-121.92" x2="-63.5" y2="-121.92" width="0.1524" layer="91"/>
 <wire x1="-63.5" y1="-121.92" x2="-63.5" y2="-124.46" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="J1" gate="-5" pin="S"/>
+<wire x1="-53.34" y1="-127" x2="-63.5" y2="-127" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="QE" class="0">
@@ -2561,8 +2561,8 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <wire x1="-93.98" y1="-86.36" x2="-86.36" y2="-86.36" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="J1" gate="-5" pin="S"/>
-<wire x1="-53.34" y1="-127" x2="-63.5" y2="-127" width="0.1524" layer="91"/>
+<pinref part="J1" gate="-6" pin="S"/>
+<wire x1="-53.34" y1="-132.08" x2="-63.5" y2="-132.08" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="QF" class="0">
@@ -2571,8 +2571,8 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <wire x1="-93.98" y1="-88.9" x2="-86.36" y2="-88.9" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="J1" gate="-6" pin="S"/>
-<wire x1="-53.34" y1="-132.08" x2="-63.5" y2="-132.08" width="0.1524" layer="91"/>
+<pinref part="J1" gate="-7" pin="S"/>
+<wire x1="-53.34" y1="-137.16" x2="-63.5" y2="-137.16" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="QG" class="0">
@@ -2581,8 +2581,8 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <wire x1="-93.98" y1="-91.44" x2="-86.36" y2="-91.44" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="J1" gate="-7" pin="S"/>
-<wire x1="-53.34" y1="-137.16" x2="-63.5" y2="-137.16" width="0.1524" layer="91"/>
+<pinref part="J1" gate="-8" pin="S"/>
+<wire x1="-53.34" y1="-142.24" x2="-63.5" y2="-142.24" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="QH" class="0">
@@ -2591,8 +2591,8 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <wire x1="-93.98" y1="-93.98" x2="-86.36" y2="-93.98" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="J1" gate="-8" pin="S"/>
-<wire x1="-53.34" y1="-142.24" x2="-63.5" y2="-142.24" width="0.1524" layer="91"/>
+<pinref part="J1" gate="-9" pin="S"/>
+<wire x1="-53.34" y1="-147.32" x2="-63.5" y2="-147.32" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="QB" class="0">
@@ -2601,14 +2601,18 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <wire x1="-93.98" y1="-78.74" x2="-86.36" y2="-78.74" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="J1" gate="-2" pin="S"/>
-<wire x1="-53.34" y1="-111.76" x2="-63.5" y2="-111.76" width="0.1524" layer="91"/>
+<pinref part="J1" gate="-3" pin="S"/>
+<wire x1="-53.34" y1="-116.84" x2="-63.5" y2="-116.84" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="QA" class="0">
 <segment>
 <pinref part="IC2" gate="A" pin="QA"/>
 <wire x1="-93.98" y1="-76.2" x2="-86.36" y2="-76.2" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="J1" gate="-2" pin="S"/>
+<wire x1="-53.34" y1="-111.76" x2="-63.5" y2="-111.76" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
