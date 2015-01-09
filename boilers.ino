@@ -124,19 +124,19 @@
 prog_char str_FreeMemory[] PROGMEM = "Free RAM:";
 prog_char str_LoadAndInit[] PROGMEM = "INIT";
 prog_char str_LedInitAndTest[] PROGMEM = "INIT_LED";
-prog_char str_RTCIsNotRunning[] PROGMEM = "RTC is not running";
+prog_char str_RTCIsNotRunning[] PROGMEM = "RTC F";
 prog_char str_SearchTemperatureSensor[] PROGMEM = "INIT_TS_SENSOR";
 prog_char str_Chip[] PROGMEM = "Chip=";
 prog_char str_Chip18B20[] PROGMEM = "DS18B20";
 prog_char str_Chip18S20[] PROGMEM = "DS18S20";
 prog_char str_Chip1822[] PROGMEM = "DS1822";
-prog_char str_NoDSChip[] PROGMEM = "Device is not a DS18x20 family device.";
+prog_char str_NoDSChip[] PROGMEM = "UNKDEV";
 prog_char str_ROM[] PROGMEM = "ROM=";
 prog_char str_Founded[] PROGMEM = "FOUNDED:";
-prog_char str_CmdShowList[] PROGMEM = "Command list:";
-prog_char str_CmdList[] PROGMEM = " list - list of command";
-prog_char str_CmdTs[] PROGMEM = " ts - temp sensor control";
-prog_char str_CmdLight[] PROGMEM = " light - display light (0-10)";
+prog_char str_CmdShowList[] PROGMEM = "CMD:";
+prog_char str_CmdList[] PROGMEM = "ls";
+prog_char str_CmdTs[] PROGMEM = "ts";
+prog_char str_CmdLight[] PROGMEM = "lt";
 prog_char str_Error[] PROGMEM = "ERROR\n.";
 prog_char str_OK[] PROGMEM = "OK";
 prog_char str_FAILED[] PROGMEM = "FAILED";
@@ -210,6 +210,7 @@ typedef struct _temp_sensor {
 _temp_sensor temp_sensor[MAX_TEMP_SENSOR];
 byte ts_count = 0;
 byte relay_state;
+byte in_state = 0;
 byte antifreeze_temp;
 unsigned long boiler_timer;
 short pump_off_delay = 0;
@@ -231,6 +232,8 @@ void SerialPrintln(int cStr){
   strcpy_P(buffer, (char*)pgm_read_word(&(string_table[cStr])));    
   Serial.println(buffer);  
 }
+
+
 
 void clear_indicator(byte disp, byte ind) {
   for (byte i=0; i<8; i++) {
@@ -341,12 +344,10 @@ void init_and_test_led(byte intensity) {
   for(int row=0;row<8;row++) {
     for(int col=0;col<8;col++) {
       for(int address=0;address<devices;address++) {
-        delay(1);
         lc.setLed(address,row,col,true);
       }
     }
   }
- delay(3000); 
  clear_led();
 }
 
@@ -929,8 +930,59 @@ void input_data () {
  digitalWrite(EXT_CLOCK, LOW);
  digitalWrite(EXT_CLOCK, HIGH);
  digitalWrite(EXT_CS_IN, HIGH);
- byte input = shiftIn(EXT_DATA_IN, EXT_CLOCK, LSBFIRST);
- Serial.println(input, BIN);
+ byte new_in_state = shiftIn(EXT_DATA_IN, EXT_CLOCK, LSBFIRST);
+ if (new_in_state != in_state) { 
+   Serial.println(new_in_state, BIN);
+ }
+ in_state = new_in_state; 
+}
+
+void log_data() {
+  
+  File log_file = SD.open("boilers.log", FILE_WRITE);
+  if (log_file) {
+   log_file.print(now.year());
+   log_file.print(cpoint);
+   log_file.print(now.month());
+   log_file.print(cpoint);
+   log_file.print(now.day());
+   log_file.print(cspace);
+   log_file.print(now.hour());
+   log_file.print(ccolon);
+   log_file.print(now.minute());
+   log_file.print(ccolon);
+   log_file.print(now.second());
+   log_file.print(csemicolon);
+   log_file.print(relay_state, DEC);
+   log_file.print(csemicolon);
+   for (byte k = 0; k < MAX_TEMP_SENSOR; k++) {
+     char idx = ts_by_display(cTempDisplay[k]);
+     if (idx > -1) {
+       log_file.print(temp_sensor[idx].temp[0], DEC);
+       log_file.print(cpoint);
+       log_file.print(temp_sensor[idx].temp[1], DEC);
+       log_file.print(csemicolon);
+       log_file.print(temp_sensor[idx].temp[2], DEC);
+       log_file.print(csemicolon);
+       log_file.print(temp_sensor[idx].flags, DEC);
+       log_file.print(csemicolon);       
+     } else
+     {
+       log_file.print(cminus);
+       log_file.print(cpoint);
+       log_file.print(cminus);
+       log_file.print(csemicolon);
+       log_file.print(cminus);
+       log_file.print(csemicolon);
+       log_file.print(cminus);
+       log_file.print(csemicolon);              
+     }
+   }
+   log_file.println();
+   
+   log_file.close();
+  }
+  
 }
 
 void setup(void) {
@@ -1019,6 +1071,7 @@ void loop(void) {
  
  curr_time = millis(); 
  if (curr_time >= (loop_time + 1000)) {
+   
   if (((relay_state & BOILER_TIMER_ON) > 0) & (boiler_timer > 0)) {
    boiler_timer--;   
   } 
@@ -1028,6 +1081,7 @@ void loop(void) {
    if (!boiler_on(false)) {
      boiler_off(false);
    }       
+  log_data(); 
  }
  if ((relay_state & BOILER_TIMER_ON) > 0) {
    lc.setChar(2, 7, 'b', true);
@@ -1052,7 +1106,7 @@ void loop(void) {
 // digitalWrite(7, HIGH);
 // delay(100);
 // digitalWrite(7, LOW);
-// input_data();
+ input_data();
  
 }
 

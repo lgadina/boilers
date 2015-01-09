@@ -7195,6 +7195,11 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <wire x1="-53.34" y1="-152.4" x2="-63.5" y2="-152.4" width="0.1524" layer="91"/>
 <label x="-60.96" y="-152.4" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="IC1" gate="A" pin="INH"/>
+<wire x1="-119.38" y1="-58.42" x2="-134.62" y2="-58.42" width="0.1524" layer="91"/>
+<label x="-134.62" y="-58.42" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="+5V" class="1">
 <segment>
@@ -7264,11 +7269,6 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <pinref part="IC2" gate="A" pin="SCL"/>
 <wire x1="-119.38" y1="-83.82" x2="-147.32" y2="-83.82" width="0.1524" layer="91"/>
 <label x="-142.24" y="-83.82" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="IC1" gate="A" pin="INH"/>
-<wire x1="-119.38" y1="-58.42" x2="-134.62" y2="-58.42" width="0.1524" layer="91"/>
-<label x="-134.62" y="-58.42" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="IC1" gate="A" pin="SER"/>
@@ -7653,6 +7653,7 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <segment>
 <pinref part="R3" gate="G$1" pin="1"/>
 <wire x1="-12.7" y1="-121.92" x2="-20.32" y2="-121.92" width="0.1524" layer="91"/>
+<label x="-17.78" y="-121.92" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="QD" class="0">
@@ -7672,6 +7673,7 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <segment>
 <pinref part="R4" gate="G$1" pin="1"/>
 <wire x1="-12.7" y1="-129.54" x2="-20.32" y2="-129.54" width="0.1524" layer="91"/>
+<label x="-17.78" y="-129.54" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="QE" class="0">
@@ -7688,6 +7690,7 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <segment>
 <pinref part="R5" gate="G$1" pin="1"/>
 <wire x1="-12.7" y1="-137.16" x2="-20.32" y2="-137.16" width="0.1524" layer="91"/>
+<label x="-17.78" y="-137.16" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="QF" class="0">
@@ -7704,6 +7707,7 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <segment>
 <pinref part="R6" gate="G$1" pin="1"/>
 <wire x1="-12.7" y1="-144.78" x2="-20.32" y2="-144.78" width="0.1524" layer="91"/>
+<label x="-17.78" y="-144.78" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="QG" class="0">
@@ -7720,6 +7724,7 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <segment>
 <pinref part="R7" gate="G$1" pin="1"/>
 <wire x1="-12.7" y1="-152.4" x2="-20.32" y2="-152.4" width="0.1524" layer="91"/>
+<label x="-17.78" y="-152.4" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="QH" class="0">
@@ -7753,6 +7758,7 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <segment>
 <pinref part="R2" gate="G$1" pin="1"/>
 <wire x1="-12.7" y1="-114.3" x2="-20.32" y2="-114.3" width="0.1524" layer="91"/>
+<label x="-17.78" y="-114.3" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="QA" class="0">
@@ -7769,6 +7775,7 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <segment>
 <pinref part="R1" gate="G$1" pin="1"/>
 <wire x1="-12.7" y1="-106.68" x2="-20.32" y2="-106.68" width="0.1524" layer="91"/>
+<label x="-17.78" y="-106.68" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="RESET" class="0">
