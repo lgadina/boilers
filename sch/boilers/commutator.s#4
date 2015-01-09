@@ -1271,7 +1271,6 @@ Based on the following sources:
 <segment>
 <pinref part="IC1" gate="B" pin="A2"/>
 <wire x1="35.56" y1="35.56" x2="25.4" y2="35.56" width="0.1524" layer="91"/>
-<label x="27.94" y="35.56" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="RL3" class="0">
