@@ -16,6 +16,8 @@
 #define TSCFG_START_ADDR 10
 #define INTENSITY_ADDR 0
 #define ANTIFREEZE_TEMP_ADDR 1
+#define PUMP_OFF_DELAY_ADDR 2
+
 #define TEMP_ERROR -100
 #define PUMP_OFF_DELAY 60
 
@@ -52,7 +54,14 @@
 
 #define BOILER_ON 0x01
 #define PUMP_ON 0x02
+#define TUBE_POWER_ON 0x04
+
 #define BOILER_TIMER_ON 0x04
+
+
+#define BOILER_BUTTON_ON 0x02
+#define BOILER_TERMOSTAT_ON 0x40
+
 #define temp9bit
 
 #ifdef temp12bit
@@ -92,7 +101,10 @@
 #endif
 
 #define MAX_TEMP_SENSOR 4
+#define WATER_OUT_DISP 0
+#define WATER_IN_DISP 1
 #define ANTIFREEZE_DISP 3
+#define OUT_DOOR_DISP 2
 
 #define cstrFreeMemory 0
 #define cstrLoadAndInit 1
@@ -210,16 +222,18 @@ typedef struct _temp_sensor {
 _temp_sensor temp_sensor[MAX_TEMP_SENSOR];
 byte ts_count = 0;
 byte relay_state;
+byte boiler_state = 0;
 byte in_state = 0;
 byte antifreeze_temp;
+boolean power_save_mode = false;
 unsigned long boiler_timer;
 short pump_off_delay = 0;
 
 DateTime now;
-DateTime boiler_on_time;
-DateTime boiler_off_time;
-DateTime pump_on_time;
-DateTime pump_off_time;
+//DateTime boiler_on_time;
+//DateTime boiler_off_time;
+//DateTime pump_on_time;
+//DateTime pump_off_time;
 
 void SerialPrint(int cStr){
   char buffer[30];
@@ -599,12 +613,27 @@ void cmd_boiler() {
       arg = SCmd.next();
       if (arg != NULL) {
         boiler_timer = atoi(arg);
-        relay_state |= BOILER_TIMER_ON;
+        boiler_state |= BOILER_TIMER_ON;
       } else {
         boiler_timer = 0;
-        relay_state &= ~BOILER_TIMER_ON;
+        boiler_state &= ~BOILER_TIMER_ON;
       }
       boiler_on(true);
+    } else
+    if (strcmp(arg, "pd") == 0) {
+      arg = SCmd.next();
+      byte pd;
+      if (arg != NULL) {
+        pd = atoi(arg);
+        if (pd == 0) { 
+          pd = 60;
+        }
+        i2c_eeprom_write_byte(EEPROM_CFG, PUMP_OFF_DELAY_ADDR, pd);
+      } else
+      {
+        pd = i2c_eeprom_read_byte(EEPROM_CFG, PUMP_OFF_DELAY_ADDR);
+        Serial.println(pd, DEC);
+      }
     } else
     if (strcmp(arg, "off") == 0) {
       boiler_off(true);
@@ -848,12 +877,14 @@ boolean boiler_on(boolean force) {
     if (!is_boiler_on()) {
       //bus.lineWrite(BOILER_RELAY, LOW);      
       relay_state |= BOILER_ON;
+      boiler_state |= BOILER_ON;
       
-      boiler_on_time = now;
+//      boiler_on_time = now;
       //digitalWrite(PUMP_RELAY, LOW);
       //bus.lineWrite(PUMP_RELAY, LOW);
       relay_state |= PUMP_ON;     
-      pump_on_time = now;
+      boiler_state |= PUMP_ON;
+//      pump_on_time = now;
     }
     out_relay_state();
     return is_boiler_on();
@@ -865,17 +896,33 @@ boolean boiler_on(boolean force) {
   printState();
 }
 
+void set_boiler_off() {
+        relay_state &= ~BOILER_ON;
+        boiler_state &= ~(BOILER_ON | BOILER_TIMER_ON);
+        out_relay_state();
+        boiler_timer = 0;
+//        boiler_off_time = now;
+        pump_off_delay = i2c_eeprom_read_byte(EEPROM_CFG, PUMP_OFF_DELAY_ADDR);;
+        if (pump_off_delay == 0) pump_off_delay = PUMP_OFF_DELAY;
+        printState();  
+}
+
 void boiler_off(boolean force) {
   char ts=get_temp_at_display(ANTIFREEZE_DISP);
-  if (((ts >= antifreeze_temp) & (is_boiler_on())) | (force) | (((relay_state & BOILER_TIMER_ON)>0) & (boiler_timer == 0))) {
-//    bus.lineWrite(BOILER_RELAY, HIGH);
-    //digitalWrite(BOILER_RELAY, HIGH);
-    relay_state &= ~(BOILER_ON | BOILER_TIMER_ON);
-    out_relay_state();
-    boiler_timer = 0;
-    boiler_off_time = now;
-    pump_off_delay = PUMP_OFF_DELAY;
-    printState();
+  if (
+       ((ts >= antifreeze_temp) & (is_boiler_on())) | 
+       (force) | 
+       (((boiler_state & BOILER_TIMER_ON)>0) & (boiler_timer == 0))
+      ) {
+                
+      if (!is_external_boiler_on(0)) {
+        set_boiler_off();
+      }
+  } else {
+    ts = get_temp_at_display(WATER_OUT_DISP);
+    if ((ts >80) & (is_boiler_on())) {
+      set_boiler_off();
+    }
   }
 }
 
@@ -883,8 +930,9 @@ void pump_off() {
   //digitalWrite(PUMP_RELAY, HIGH);
   //bus.lineWrite(PUMP_RELAY, HIGH);  
   relay_state &= ~PUMP_ON;
+  boiler_state &= ~PUMP_ON;
   out_relay_state();
-  pump_off_time = now;
+//  pump_off_time = now;
   printState();
 }
 
@@ -897,7 +945,7 @@ boolean is_pump_on() {
 }
 
 boolean is_boiler_timer_on() {
-  if ((relay_state & BOILER_TIMER_ON) != 0) {
+  if ((boiler_state & BOILER_TIMER_ON) != 0) {
     return true;
   } else
    return false;
@@ -925,14 +973,60 @@ void printState() {
 }
 
 
-void input_data () {
+byte get_input_data() {
  digitalWrite(EXT_CS_IN, LOW);
  digitalWrite(EXT_CLOCK, LOW);
  digitalWrite(EXT_CLOCK, HIGH);
  digitalWrite(EXT_CS_IN, HIGH);
- byte new_in_state = shiftIn(EXT_DATA_IN, EXT_CLOCK, LSBFIRST);
+ byte data = shiftIn(EXT_DATA_IN, EXT_CLOCK, LSBFIRST);
+ return data;  
+}
+
+boolean is_button_boiler_on(byte state) {
+  if ((state & BOILER_BUTTON_ON) != 0) 
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+boolean is_termostat_boiler_on(byte state) {
+ if ((state & BOILER_TERMOSTAT_ON) != 0) {
+   return true;
+ }  else
+ {
+   return false;
+ }
+}
+
+boolean is_external_boiler_on(byte state) {
+  if (state == 0) {
+    state = get_input_data();
+  }
+  return is_button_boiler_on(state) | is_termostat_boiler_on(state);
+}
+
+void input_data () {
+ byte new_in_state = get_input_data();
  if (new_in_state != in_state) { 
    Serial.println(new_in_state, BIN);
+   Serial.println(new_in_state, DEC);
+   if ((new_in_state & 0x01) != 0) {
+     power_save_mode = true;
+   } else
+   {
+     power_save_mode = false;
+   }
+   if (is_external_boiler_on(new_in_state)) {
+      boiler_on(true);       
+   } else
+   if (is_boiler_on()) {
+     boiler_off(true);
+   }
+   
  }
  in_state = new_in_state; 
 }
@@ -955,7 +1049,11 @@ void log_data() {
    log_file.print(csemicolon);
    log_file.print(relay_state, DEC);
    log_file.print(csemicolon);
-   for (byte k = 0; k < MAX_TEMP_SENSOR; k++) {
+   log_file.print(boiler_state, DEC);
+   log_file.print(csemicolon);   
+   log_file.print(power_save_mode, DEC);
+   log_file.print(csemicolon);  
+   for (byte k = 0; k < MAX_TEMP_SENSOR; k++) {     
      char idx = ts_by_display(cTempDisplay[k]);
      if (idx > -1) {
        log_file.print(temp_sensor[idx].temp[0], DEC);
@@ -983,6 +1081,21 @@ void log_data() {
    log_file.close();
   }
   
+}
+
+void tube_power() {
+  char ts = get_temp_at_display(OUT_DOOR_DISP);
+  byte state = relay_state;
+  if ((ts < -5) & (!power_save_mode)) {
+    state |= TUBE_POWER_ON;    
+  } else
+  {
+    state &= ~TUBE_POWER_ON;
+  }
+  if (state != relay_state) {
+    relay_state = state;
+    out_relay_state();
+  }
 }
 
 void setup(void) {
@@ -1072,7 +1185,7 @@ void loop(void) {
  curr_time = millis(); 
  if (curr_time >= (loop_time + 1000)) {
    
-  if (((relay_state & BOILER_TIMER_ON) > 0) & (boiler_timer > 0)) {
+  if (((boiler_state & BOILER_TIMER_ON) > 0) & (boiler_timer > 0)) {
    boiler_timer--;   
   } 
   if (pump_off_delay > 0) pump_off_delay--;  
@@ -1083,7 +1196,7 @@ void loop(void) {
    }       
   log_data(); 
  }
- if ((relay_state & BOILER_TIMER_ON) > 0) {
+ if ((boiler_state & BOILER_TIMER_ON) > 0) {
    lc.setChar(2, 7, 'b', true);
    lc.setDigit(2, 6, boiler_timer/100, false);
    lc.setDigit(2, 5, (boiler_timer/10)%10, false);
@@ -1107,6 +1220,7 @@ void loop(void) {
 // delay(100);
 // digitalWrite(7, LOW);
  input_data();
+ tube_power();
  
 }
 
