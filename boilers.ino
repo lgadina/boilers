@@ -1,11 +1,14 @@
 #define SERIAL_COMMAND
 #define USE_RTC
+#define _PWM_PIN_15
+#define _useTimer2
 
 #include <avr/pgmspace.h>
 #include <SD.h>
 #include <OneWire.h>
 #include <LedControl.h>
 #include <Wire.h>
+#include "AnyPCPWM.h"
 
 #ifdef USE_RTC
 #include <RTClib.h>
@@ -17,6 +20,7 @@
 
 #define TS_ON 0x80
 #define TS_ERROR 0x40
+#define TS_EDIT 0x20
 #define EEPROM_CFG 0x50
 #define TSCFG_START_ADDR 10
 #define INTENSITY_ADDR 0
@@ -37,7 +41,7 @@
 #define EXT_OUT_8 7
 
 // занятые ноги
-
+#define A0P 15
 #define EXT_CS_IN 14
 // 13
 // 12
@@ -64,8 +68,11 @@
 
 #define BOILER_TIMER_ON 0x04
 
-
+#define INPUT_PS_MODE 0x01
 #define BOILER_BUTTON_ON 0x02
+#define INPUT_EDIT_MODE 0x04
+#define INPUT_PLUS 0x08
+#define INPUT_MINUS 0x20
 #define BOILER_TERMOSTAT_ON 0x40
 
 #define NO_VALUE 0
@@ -77,6 +84,9 @@
 #define BOILER_TIMER 6
 
 #define MAX_OUT_TEMP 75
+
+
+
 
 #define temp9bit
 
@@ -116,11 +126,13 @@
 #undef temp10bit
 #endif
 
+
 #define MAX_TEMP_SENSOR 4
 #define WATER_OUT_DISP 0
 #define WATER_IN_DISP 1
 #define ANTIFREEZE_DISP 3
 #define OUT_DOOR_DISP 2
+
 
 #define cstrFreeMemory				0
 #define cstrLoadAndInit				1
@@ -223,6 +235,8 @@ byte antifreeze_temp;
 byte max_water_temp = MAX_OUT_TEMP;
 byte boiler_on_mode = NO_VALUE;
 byte boiler_off_mode = NO_VALUE;
+byte edit_mode = 0;
+
 boolean boiler_force_on = false;
 
 boolean power_save_mode = false;
@@ -368,18 +382,18 @@ void search_ds() {
 		if (OneWire::crc8(addr, 7) == addr[7]) {
 			switch (addr[0]) {
 				case 0x10:
-//				SerialPrint(cstrChip);  // or old DS1820
-//				SerialPrintln(cstrChip18S20);
+				//				SerialPrint(cstrChip);  // or old DS1820
+				//				SerialPrintln(cstrChip18S20);
 				type_s = 2;
 				break;
 				case 0x28:
-//				SerialPrint(cstrChip);  // or old DS1820
-//				SerialPrintln(cstrChip18B20);
+				//				SerialPrint(cstrChip);  // or old DS1820
+				//				SerialPrintln(cstrChip18B20);
 				type_s = 1;
 				break;
 				case 0x22:
-//				SerialPrint(cstrChip);  // or old DS1820
-//				SerialPrintln(cstrChip1822);
+				//				SerialPrint(cstrChip);  // or old DS1820
+				//				SerialPrintln(cstrChip1822);
 				type_s = 1;
 				break;
 				default:
@@ -437,6 +451,9 @@ void display_temp(byte disp, char temp1, char temp2, byte flag) {
 		lc.setDigit(displayNo, indicatorNo-2, abs(temp1)/10, false);
 		lc.setDigit(displayNo, indicatorNo-3, abs(temp1)%10, true);
 		lc.setDigit(displayNo, indicatorNo-4, temp2, false);
+	}
+	if ((flag & TS_EDIT) !=0) {
+	  lc.setLed(displayNo, indicatorNo-1, 1, true);
 	}
 }
 
@@ -507,9 +524,23 @@ void get_and_display_temp() {
 			temp_sensor[r].temp[1] = 9 - temp_flt;
 		}
 		
-		
-		if ((temp_sensor[r].flags & TS_ON) == TS_ON) {
+		if (edit_mode == 0) {			
 			display_temp(temp_sensor[r].disp, temp_sensor[r].temp[0], temp_sensor[r].temp[1], temp_sensor[r].flags);
+			} else {
+			if (edit_mode>0 && edit_mode < 5) {
+				if ((edit_mode-1) == r) {
+					display_temp(temp_sensor[r].disp, temp_sensor[r].temp[2], 0, TS_EDIT);
+					} else {
+					display_temp(temp_sensor[r].disp, temp_sensor[r].temp[0], temp_sensor[r].temp[1], temp_sensor[r].flags);
+				}
+				
+			} else
+			switch (edit_mode) {
+				case 5:display_temp(temp_sensor[ANTIFREEZE_DISP].disp, antifreeze_temp, 0, TS_EDIT);
+				break;
+				case 6:display_temp(temp_sensor[WATER_OUT_DISP].disp, max_water_temp, 0, TS_EDIT);
+				break;
+			}
 		}
 		
 	}
@@ -588,6 +619,17 @@ void set_display_light() {
 }
 #endif
 
+
+void save_antifreeze_temp(byte temp) {
+	
+	i2c_eeprom_write_byte(EEPROM_CFG, ANTIFREEZE_TEMP_ADDR, temp);
+	
+}
+
+void save_max_water_temp(byte temp) {
+	i2c_eeprom_write_byte(EEPROM_CFG, MAX_OUT_TEMP_ADDR, temp);
+}
+
 #ifdef SERIAL_COMMAND
 void cmd_boiler() {
 	char *arg = SCmd.next();
@@ -612,7 +654,7 @@ void cmd_boiler() {
 			if (arg != NULL) {
 				maxtemp = atoi(arg);
 				if ((maxtemp == 0) | (maxtemp > MAX_OUT_TEMP)) maxtemp = MAX_OUT_TEMP;
-				i2c_eeprom_write_byte(EEPROM_CFG, MAX_OUT_TEMP_ADDR, maxtemp);
+				save_max_water_temp(maxtemp);
 				max_water_temp = maxtemp;
 			}
 			maxtemp = i2c_eeprom_read_byte(EEPROM_CFG, MAX_OUT_TEMP_ADDR);
@@ -648,7 +690,7 @@ void cmd_boiler() {
 					antifreeze_temp = i2c_eeprom_read_byte(EEPROM_CFG, ANTIFREEZE_TEMP_ADDR);
 				} else
 				{
-					i2c_eeprom_write_byte(EEPROM_CFG, ANTIFREEZE_TEMP_ADDR, antifreeze_temp);
+					save_antifreeze_temp(antifreeze_temp);					
 				}
 			}
 			else
@@ -669,7 +711,7 @@ void cmd_boiler() {
 #ifdef SERIAL_COMMAND
 #ifdef USE_RTC
 void cmd_datetime () {
-	char *arg;	
+	char *arg;
 	DateTime now = rtc.now();
 	if (!rtc.isrunning()) {
 		SerialPrintln(cstrRTCIsNotRunning);
@@ -1048,23 +1090,77 @@ boolean is_external_boiler_on(byte state) {
 void input_data () {
 	byte new_in_state = get_input_data();
 	if (new_in_state != in_state) {
-		Serial.println(new_in_state, BIN);
+		Serial.println();
+		Serial.print("Old state:");
+		Serial.println(in_state, DEC);
+		Serial.print("New state:");
 		Serial.println(new_in_state, DEC);
-		if ((new_in_state & 0x01) != 0) {
+		
+		if ((new_in_state & INPUT_PS_MODE) != 0) {
 			power_save_mode = true;
 		} else
 		{
 			power_save_mode = false;
 		}
+		
+		if ((new_in_state & INPUT_EDIT_MODE) !=0) {
+			if (edit_mode == 0) {
+				edit_mode = 1;
+				} else {
+				edit_mode++;
+			}
+			if (edit_mode > 6) {
+				edit_mode = 0;
+				save_ts_config();
+				save_antifreeze_temp(antifreeze_temp);
+				save_max_water_temp(max_water_temp);
+			}
+		}
+		if ((new_in_state & INPUT_PLUS) != 0 && (in_state & INPUT_MINUS) == 0 )   {
+			switch (edit_mode) {
+				case 1:
+				case 2:
+				case 3:
+				case 4: temp_sensor[edit_mode-1].temp[2]++;
+						break;
+				case 5: antifreeze_temp++;
+						if (antifreeze_temp > max_water_temp) antifreeze_temp = max_water_temp;
+						break;
+				case 6: max_water_temp++;		
+						if (max_water_temp > MAX_OUT_TEMP) max_water_temp = MAX_OUT_TEMP;
+						break;
+			}
+		  if (edit_mode)	get_and_display_temp();
+		} else
+		if ((new_in_state & INPUT_MINUS) != 0  && (in_state & INPUT_PLUS) == 0) {
+			switch (edit_mode)	{
+				case 1:
+				case 2:
+				case 3:
+				case 4: temp_sensor[edit_mode - 1].temp[2]--;				
+						break;
+				case 5: antifreeze_temp--;
+						if (antifreeze_temp < 10) antifreeze_temp = 10;
+						break;
+				case 6: max_water_temp--;
+						if (max_water_temp < 10) max_water_temp = MAX_OUT_TEMP;
+						if (max_water_temp < antifreeze_temp) antifreeze_temp = max_water_temp;
+						break;
+			}
+			if (edit_mode) get_and_display_temp();
+		}
+		
 	}
 	in_state = new_in_state;
 }
+
+
 
 void log_data() {
 	
 	File log_file = SD.open("boiler.log", FILE_WRITE);
 	if (log_file) {
-#ifdef USE_RTC		
+		#ifdef USE_RTC
 		log_file.print(now.year());
 		log_file.print(cpoint);
 		log_file.print(now.month());
@@ -1077,7 +1173,7 @@ void log_data() {
 		log_file.print(ccolon);
 		log_file.print(now.second());
 		log_file.print(csemicolon);
-#endif		
+		#endif
 		log_file.print(relay_state, DEC);
 		log_file.print(csemicolon);
 		log_file.print(boiler_state, DEC);
@@ -1134,14 +1230,15 @@ void tube_power() {
 }
 
 void setup(void) {
+	setup_pc_pwm_any();
 	pinMode(EXT_CS_IN, OUTPUT);
 	digitalWrite(EXT_CS_IN, HIGH);
 	pinMode(EXT_DATA_IN, INPUT);
 	pinMode(EXT_CS, OUTPUT);
+//	pinMode(A2, OUTPUT);
 	digitalWrite(EXT_CS, HIGH);
 	pinMode(EXT_CLOCK, OUTPUT);
 	pinMode(EXT_DATA_OUT, OUTPUT);
-	
 	set_boiler_off(FORCE);
 	pump_off();
 	Serial.begin(9600);
@@ -1153,7 +1250,7 @@ void setup(void) {
 	Serial.println(freeRam(), DEC);
 	SerialPrintln(cstrLoadAndInit);
 	Wire.begin();
-#ifdef USE_RTC	
+	#ifdef USE_RTC
 	rtc.begin();
 	rtc.writeSqwPinMode(SquareWave1HZ);
 	
@@ -1162,16 +1259,16 @@ void setup(void) {
 		//rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
 	}
 	Serial.println(cpoint);
-#endif
+	#endif
 
 	#ifdef SERIAL_COMMAND
 	SCmd.addCommand("ts", list_temp_sensor);
 	SCmd.addCommand("lt", set_display_light);
 	SCmd.addCommand("st", printState);
 	SCmd.addCommand("bl", cmd_boiler);
-#ifdef USE_RTC	
+	#ifdef USE_RTC
 	SCmd.addCommand("dt", cmd_datetime);
-#endif	
+	#endif
 	SCmd.addDefaultHandler(unrecognized);
 	#endif
 	
@@ -1202,6 +1299,7 @@ void setup(void) {
 }
 
 
+int test_val = 255;
 
 void loop(void) {
 	byte h = 0;
@@ -1213,12 +1311,12 @@ void loop(void) {
 	SCmd.readSerial();
 	#endif
 	
-#ifdef USE_RTC	
+	#ifdef USE_RTC
 	now = rtc.now();
 	h = now.hour();
 	m = now.minute();
 	s = now.second();
-#endif;	
+	#endif;
 	lc.setDigit(2, 3, h/10, false);
 	lc.setDigit(2, 2, h%10, s%2 == 0 ? false : true);
 	lc.setDigit(2, 1, m/10, false);
@@ -1235,6 +1333,11 @@ void loop(void) {
 		loop_time = millis();
 		log_data();
 	}
+	
+		analogWriteAny(15, test_val);
+		//		Serial.println(test_val);
+		test_val--;
+		if (test_val == 0) test_val = 1023;
 	
 	if ((boiler_state & BOILER_TIMER_ON) > 0) {
 		lc.setChar(2, 7, 'b', true);
