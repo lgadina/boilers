@@ -1,10 +1,26 @@
+#define FILE_LOGGER
+
+#ifdef FILE_LOGGER
+#undef SD_CARD
+#endif
+
+#if !defined(FILE_LOGGER) | !defined(SD_CARD)
+#define SD_CARD
+#endif
+
 #define SERIAL_COMMAND
 #define USE_RTC
 #define _PWM_PIN_15
 #define _useTimer2
 
 #include <avr/pgmspace.h>
+
+#ifdef SD_CARD
 #include <SD.h>
+#endif
+#ifdef FILE_LOGGER
+#include <FileLogger.h>
+#endif
 #include <OneWire.h>
 #include <LedControl.h>
 #include <Wire.h>
@@ -453,7 +469,7 @@ void display_temp(byte disp, char temp1, char temp2, byte flag) {
 		lc.setDigit(displayNo, indicatorNo-4, temp2, false);
 	}
 	if ((flag & TS_EDIT) !=0) {
-	  lc.setLed(displayNo, indicatorNo-1, 1, true);
+		lc.setLed(displayNo, indicatorNo-1, 1, true);
 	}
 }
 
@@ -524,7 +540,7 @@ void get_and_display_temp() {
 			temp_sensor[r].temp[1] = 9 - temp_flt;
 		}
 		
-		if (edit_mode == 0) {			
+		if (edit_mode == 0) {
 			display_temp(temp_sensor[r].disp, temp_sensor[r].temp[0], temp_sensor[r].temp[1], temp_sensor[r].flags);
 			} else {
 			if (edit_mode>0 && edit_mode < 5) {
@@ -690,7 +706,7 @@ void cmd_boiler() {
 					antifreeze_temp = i2c_eeprom_read_byte(EEPROM_CFG, ANTIFREEZE_TEMP_ADDR);
 				} else
 				{
-					save_antifreeze_temp(antifreeze_temp);					
+					save_antifreeze_temp(antifreeze_temp);
 				}
 			}
 			else
@@ -1122,30 +1138,30 @@ void input_data () {
 				case 2:
 				case 3:
 				case 4: temp_sensor[edit_mode-1].temp[2]++;
-						break;
+				break;
 				case 5: antifreeze_temp++;
-						if (antifreeze_temp > max_water_temp) antifreeze_temp = max_water_temp;
-						break;
-				case 6: max_water_temp++;		
-						if (max_water_temp > MAX_OUT_TEMP) max_water_temp = MAX_OUT_TEMP;
-						break;
+				if (antifreeze_temp > max_water_temp) antifreeze_temp = max_water_temp;
+				break;
+				case 6: max_water_temp++;
+				if (max_water_temp > MAX_OUT_TEMP) max_water_temp = MAX_OUT_TEMP;
+				break;
 			}
-		  if (edit_mode)	get_and_display_temp();
+			if (edit_mode)	get_and_display_temp();
 		} else
 		if ((new_in_state & INPUT_MINUS) != 0  && (in_state & INPUT_PLUS) == 0) {
 			switch (edit_mode)	{
 				case 1:
 				case 2:
 				case 3:
-				case 4: temp_sensor[edit_mode - 1].temp[2]--;				
-						break;
+				case 4: temp_sensor[edit_mode - 1].temp[2]--;
+				break;
 				case 5: antifreeze_temp--;
-						if (antifreeze_temp < 10) antifreeze_temp = 10;
-						break;
+				if (antifreeze_temp < 10) antifreeze_temp = 10;
+				break;
 				case 6: max_water_temp--;
-						if (max_water_temp < 10) max_water_temp = MAX_OUT_TEMP;
-						if (max_water_temp < antifreeze_temp) antifreeze_temp = max_water_temp;
-						break;
+				if (max_water_temp < 10) max_water_temp = MAX_OUT_TEMP;
+				if (max_water_temp < antifreeze_temp) antifreeze_temp = max_water_temp;
+				break;
 			}
 			if (edit_mode) get_and_display_temp();
 		}
@@ -1154,10 +1170,67 @@ void input_data () {
 	in_state = new_in_state;
 }
 
+#ifdef FILE_LOGGER
+void write_sd(byte* buffer, unsigned long sz) {
+	FileLogger::append("BOILERS.LOG", buffer, sz);
+}
 
+void write_long(long number, char delim) //break data into byte array for writing to FileLogger
+{
+	uint8_t buf[32];
+	uint8_t i=0;	
+	buf[sizeof(buf)] = delim;
+	unsigned long k;
+	if (number < 0) k = -number; else k = number;
+	do {
+		i++;
+		buf[sizeof(buf) - i] = k%10 + '0';
+		k /= 10;
+	}
+	while (k);
+	if (number < 0) {
+		i++;
+		buf[sizeof(buf) - i] = cminus;
+	}
+	write_sd(&buf[sizeof(buf) - i], i);
+}
+
+void write_crlf(){
+byte crlf[2]= {0x0D,0x0A};
+	write_sd(crlf, 2);
+}
+#endif
 
 void log_data() {
+	#ifdef FILE_LOGGER
+	byte result;
+	char tmp[20];
+	byte tmp2;
 	
+	#ifdef USE_RTC
+	write_long(now.year(), cpoint);
+	write_long(now.month(), cpoint);
+	write_long(now.day(), cspace);
+	write_long(now.hour(), ccolon);
+	write_long(now.minute(), ccolon);
+	write_long(now.second(), csemicolon);	
+	#endif
+	write_long(relay_state, csemicolon);
+	write_long(boiler_state, csemicolon);
+	write_long(boiler_on_mode, csemicolon);
+	write_long(boiler_off_mode, csemicolon);
+	write_long(power_save_mode, csemicolon);
+		for (byte k = 0; k < MAX_TEMP_SENSOR; k++) {
+			char idx = ts_by_display(cTempDisplay[k]);
+			if (idx > -1) {
+				write_long(temp_sensor[idx].temp[0], cpoint);
+				write_long(temp_sensor[idx].temp[1], csemicolon);
+				write_long(temp_sensor[idx].temp[2], csemicolon);
+				write_long(temp_sensor[idx].flags, csemicolon);
+			}
+		}
+	write_crlf();
+	#elif defined(SD_CARD)
 	File log_file = SD.open("boiler.log", FILE_WRITE);
 	if (log_file) {
 		#ifdef USE_RTC
@@ -1211,6 +1284,7 @@ void log_data() {
 		
 		log_file.close();
 	}
+	#endif
 	
 }
 
@@ -1235,7 +1309,7 @@ void setup(void) {
 	digitalWrite(EXT_CS_IN, HIGH);
 	pinMode(EXT_DATA_IN, INPUT);
 	pinMode(EXT_CS, OUTPUT);
-//	pinMode(A2, OUTPUT);
+	//	pinMode(A2, OUTPUT);
 	digitalWrite(EXT_CS, HIGH);
 	pinMode(EXT_CLOCK, OUTPUT);
 	pinMode(EXT_DATA_OUT, OUTPUT);
@@ -1280,8 +1354,8 @@ void setup(void) {
 	init_and_test_led(intensity);
 	Serial.println(cpoint);
 	
+	#ifdef SD_CARD
 	SerialPrintln(cstrInitSD);
-	
 	if (!SD.begin(SD_CS_PIN)) {
 		SerialPrintln(cstrFAILED);
 	} else
@@ -1289,6 +1363,8 @@ void setup(void) {
 		SerialPrintln(cstrOK);
 	}
 	Serial.println(cpoint);
+	#endif
+
 	max_water_temp = i2c_eeprom_read_byte(EEPROM_CFG, MAX_OUT_TEMP_ADDR);
 	if ((max_water_temp == 0) | (max_water_temp > MAX_OUT_TEMP)) max_water_temp = MAX_OUT_TEMP;
 	
@@ -1334,10 +1410,10 @@ void loop(void) {
 		log_data();
 	}
 	
-		analogWriteAny(15, test_val);
-		//		Serial.println(test_val);
-		test_val--;
-		if (test_val == 0) test_val = 1023;
+	analogWriteAny(15, test_val);
+	//		Serial.println(test_val);
+	test_val--;
+	if (test_val == 0) test_val = 1023;
 	
 	if ((boiler_state & BOILER_TIMER_ON) > 0) {
 		lc.setChar(2, 7, 'b', true);
@@ -1362,6 +1438,5 @@ void loop(void) {
 	input_data();
 	tube_power();
 	check_boiler();
-	
 }
 
