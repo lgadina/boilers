@@ -1208,8 +1208,8 @@ void log_data() {
 	byte tmp2;
 	
 	#ifdef USE_RTC
-	write_long(now.year(), cpoint);
-	write_long(now.month(), cpoint);
+	write_long(now.year(), cminus);
+	write_long(now.month(), cminus);
 	write_long(now.day(), cspace);
 	write_long(now.hour(), ccolon);
 	write_long(now.minute(), ccolon);
@@ -1223,7 +1223,7 @@ void log_data() {
 		for (byte k = 0; k < MAX_TEMP_SENSOR; k++) {
 			char idx = ts_by_display(cTempDisplay[k]);
 			if (idx > -1) {
-				write_long(temp_sensor[idx].temp[0], cpoint);
+				write_long(temp_sensor[idx].temp[0], ccomma);
 				write_long(temp_sensor[idx].temp[1], csemicolon);
 				write_long(temp_sensor[idx].temp[2], csemicolon);
 				write_long(temp_sensor[idx].flags, csemicolon);
@@ -1235,9 +1235,9 @@ void log_data() {
 	if (log_file) {
 		#ifdef USE_RTC
 		log_file.print(now.year());
-		log_file.print(cpoint);
+		log_file.print(cminus);
 		log_file.print(now.month());
-		log_file.print(cpoint);
+		log_file.print(cminus);
 		log_file.print(now.day());
 		log_file.print(cspace);
 		log_file.print(now.hour());
@@ -1261,7 +1261,7 @@ void log_data() {
 			char idx = ts_by_display(cTempDisplay[k]);
 			if (idx > -1) {
 				log_file.print(temp_sensor[idx].temp[0], DEC);
-				log_file.print(cpoint);
+				log_file.print(ccomma);
 				log_file.print(temp_sensor[idx].temp[1], DEC);
 				log_file.print(csemicolon);
 				log_file.print(temp_sensor[idx].temp[2], DEC);
