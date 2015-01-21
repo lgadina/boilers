@@ -8314,25 +8314,26 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <part name="R6" library="rcl" deviceset="R-EU_" device="0411/15"/>
 <part name="P+5" library="supply1" deviceset="+5V" device=""/>
 <part name="GND6" library="supply1" deviceset="GND" device=""/>
-<part name="RELAY" library="con-molex" deviceset="22-?-10" device="27-2101"/>
+<part name="RELAY" library="con-molex" deviceset="22-?-10" device="27-2101" value="OUTPUT"/>
 <part name="P+6" library="supply1" deviceset="+5V" device=""/>
 <part name="GND7" library="supply1" deviceset="GND" device=""/>
-<part name="DISPLAY" library="con-molex" deviceset="22-?-05" device="27-2051"/>
-<part name="CLOCK" library="con-molex" deviceset="22-?-05" device="27-2051"/>
-<part name="SD" library="con-molex" deviceset="22-?-06" device="27-2061"/>
-<part name="INPUT" library="con-molex" deviceset="22-?-08" device="27-2081"/>
-<part name="INPUT2" library="con-molex" deviceset="22-?-04" device="27-2041"/>
-<part name="COM" library="con-molex" deviceset="22-?-03" device="27-2031"/>
-<part name="RESET" library="con-molex" deviceset="22-?-02" device="27-2021"/>
-<part name="POWER" library="con-molex" deviceset="22-?-02" device="27-2021"/>
+<part name="DISPLAY" library="con-molex" deviceset="22-?-05" device="27-2051" value="DISPLAY"/>
+<part name="CLOCK" library="con-molex" deviceset="22-?-05" device="27-2051" value="CLOCK"/>
+<part name="SD" library="con-molex" deviceset="22-?-06" device="27-2061" value="SPI"/>
+<part name="INPUT" library="con-molex" deviceset="22-?-08" device="27-2081" value="INPUT"/>
+<part name="INPUT2" library="con-molex" deviceset="22-?-04" device="27-2041" value="INPUT"/>
+<part name="COM" library="con-molex" deviceset="22-?-03" device="27-2031" value="COM"/>
+<part name="RESET" library="con-molex" deviceset="22-?-02" device="27-2021" value="RESET"/>
+<part name="POWER" library="con-molex" deviceset="22-?-02" device="27-2021" value="POWER"/>
 <part name="P+9" library="supply1" deviceset="+5V" device=""/>
 <part name="GND10" library="supply1" deviceset="GND" device=""/>
-<part name="J1" library="con-molex" deviceset="22-?-03" device="27-2031"/>
+<part name="J1" library="con-molex" deviceset="22-?-03" device="27-2031" value="А1-3"/>
 <part name="TS4" library="con-molex" deviceset="22-?-03" device="05-7038"/>
 <part name="TS3" library="con-molex" deviceset="22-?-03" device="05-7038"/>
 <part name="TS2" library="con-molex" deviceset="22-?-03" device="05-7038"/>
 <part name="TS1" library="con-molex" deviceset="22-?-03" device="05-7038"/>
 <part name="GND8" library="supply1" deviceset="GND" device=""/>
+<part name="J2" library="con-molex" deviceset="22-?-02" device="27-2021" value="А6-7"/>
 </parts>
 <sheets>
 <sheet>
@@ -8447,6 +8448,8 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <instance part="TS1" gate="-2" x="96.52" y="165.1" rot="R180"/>
 <instance part="TS1" gate="-3" x="96.52" y="170.18" rot="R180"/>
 <instance part="GND8" gate="1" x="124.46" y="218.44"/>
+<instance part="J2" gate="-1" x="182.88" y="91.44"/>
+<instance part="J2" gate="-2" x="182.88" y="86.36"/>
 </instances>
 <busses>
 <bus name="A,B,C,D,E,F,G,H,GND,+5V,BOILER,PUMP,EXT_CLOCK,TEMP_SENSOR,SDA,SCL,1HZ,LED_DATA,LED_CS,LED_CLOCK,SS,MOSI,MISO,SCK,EXT_DATA_OUT,LOAD,EXT_CS_IN,EXT_CS,EXT_DATA_IN,A1,A2,A3,A6,A7">
@@ -9381,12 +9384,20 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <wire x1="198.12" y1="119.38" x2="165.1" y2="119.38" width="0.1524" layer="91"/>
 <label x="170.18" y="119.38" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="J2" gate="-2" pin="S"/>
+<wire x1="180.34" y1="86.36" x2="165.1" y2="86.36" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="A7" class="0">
 <segment>
 <pinref part="U$1" gate="G$1" pin="A7/ADC7/PCINT15"/>
 <wire x1="198.12" y1="116.84" x2="165.1" y2="116.84" width="0.1524" layer="91"/>
 <label x="170.18" y="116.84" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="J2" gate="-1" pin="S"/>
+<wire x1="180.34" y1="91.44" x2="165.1" y2="91.44" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>

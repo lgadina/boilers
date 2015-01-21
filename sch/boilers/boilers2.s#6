@@ -8333,6 +8333,11 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <part name="POWER" library="con-molex" deviceset="22-?-02" device="27-2021"/>
 <part name="P+9" library="supply1" deviceset="+5V" device=""/>
 <part name="GND10" library="supply1" deviceset="GND" device=""/>
+<part name="J1" library="con-molex" deviceset="22-?-03" device="27-2031"/>
+<part name="TS4" library="con-molex" deviceset="22-?-03" device="05-7038"/>
+<part name="TS3" library="con-molex" deviceset="22-?-03" device="05-7038"/>
+<part name="TS2" library="con-molex" deviceset="22-?-03" device="05-7038"/>
+<part name="TS1" library="con-molex" deviceset="22-?-03" device="05-7038"/>
 </parts>
 <sheets>
 <sheet>
@@ -8437,6 +8442,21 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <instance part="POWER" gate="-2" x="-35.56" y="337.82" rot="R180"/>
 <instance part="P+9" gate="1" x="-25.4" y="350.52"/>
 <instance part="GND10" gate="1" x="-25.4" y="322.58"/>
+<instance part="J1" gate="-1" x="142.24" y="81.28"/>
+<instance part="J1" gate="-2" x="142.24" y="76.2"/>
+<instance part="J1" gate="-3" x="142.24" y="71.12"/>
+<instance part="TS4" gate="-1" x="25.4" y="81.28" rot="R180"/>
+<instance part="TS4" gate="-2" x="25.4" y="86.36" rot="R180"/>
+<instance part="TS4" gate="-3" x="25.4" y="91.44" rot="R180"/>
+<instance part="TS3" gate="-1" x="25.4" y="99.06" rot="R180"/>
+<instance part="TS3" gate="-2" x="25.4" y="104.14" rot="R180"/>
+<instance part="TS3" gate="-3" x="25.4" y="109.22" rot="R180"/>
+<instance part="TS2" gate="-1" x="25.4" y="116.84" rot="R180"/>
+<instance part="TS2" gate="-2" x="25.4" y="121.92" rot="R180"/>
+<instance part="TS2" gate="-3" x="25.4" y="127" rot="R180"/>
+<instance part="TS1" gate="-1" x="25.4" y="134.62" rot="R180"/>
+<instance part="TS1" gate="-2" x="25.4" y="139.7" rot="R180"/>
+<instance part="TS1" gate="-3" x="25.4" y="144.78" rot="R180"/>
 </instances>
 <busses>
 <bus name="A,B,C,D,E,F,G,H,GND,+5V,BOILER,PUMP,EXT_CLOCK,TEMP_SENSOR,SDA,SCL,1HZ,LED_DATA,LED_CS,LED_CLOCK,SS,MOSI,MISO,SCK,EXT_DATA_OUT,LOAD,EXT_CS_IN,EXT_CS,EXT_DATA_IN,A1,A2,A3,A6,A7">
@@ -8445,6 +8465,11 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 </segment>
 <segment>
 <wire x1="172.72" y1="261.62" x2="172.72" y2="203.2" width="0.762" layer="92"/>
+</segment>
+</bus>
+<bus name="+5V,GND,TEMP_SENSOR">
+<segment>
+<wire x1="50.8" y1="149.86" x2="50.8" y2="73.66" width="0.762" layer="92"/>
 </segment>
 </bus>
 </busses>
@@ -8591,6 +8616,26 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <pinref part="P+9" gate="1" pin="+5V"/>
 <wire x1="-33.02" y1="337.82" x2="-25.4" y2="337.82" width="0.1524" layer="91"/>
 <wire x1="-25.4" y1="337.82" x2="-25.4" y2="347.98" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="TS1" gate="-2" pin="S"/>
+<wire x1="27.94" y1="139.7" x2="50.8" y2="139.7" width="0.1524" layer="91"/>
+<label x="33.02" y="139.7" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="TS2" gate="-2" pin="S"/>
+<wire x1="27.94" y1="121.92" x2="50.8" y2="121.92" width="0.1524" layer="91"/>
+<label x="33.02" y="121.92" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="TS3" gate="-2" pin="S"/>
+<wire x1="27.94" y1="104.14" x2="50.8" y2="104.14" width="0.1524" layer="91"/>
+<label x="33.02" y="104.14" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="TS4" gate="-2" pin="S"/>
+<wire x1="27.94" y1="86.36" x2="50.8" y2="86.36" width="0.1524" layer="91"/>
+<label x="33.02" y="86.36" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -8739,6 +8784,26 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <pinref part="GND10" gate="1" pin="GND"/>
 <wire x1="-33.02" y1="332.74" x2="-25.4" y2="332.74" width="0.1524" layer="91"/>
 <wire x1="-25.4" y1="332.74" x2="-25.4" y2="325.12" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="TS1" gate="-1" pin="S"/>
+<wire x1="27.94" y1="134.62" x2="50.8" y2="134.62" width="0.1524" layer="91"/>
+<label x="33.02" y="134.62" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="TS2" gate="-1" pin="S"/>
+<wire x1="27.94" y1="116.84" x2="50.8" y2="116.84" width="0.1524" layer="91"/>
+<label x="33.02" y="116.84" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="TS3" gate="-1" pin="S"/>
+<wire x1="27.94" y1="99.06" x2="50.8" y2="99.06" width="0.1524" layer="91"/>
+<label x="33.02" y="99.06" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="TS4" gate="-1" pin="S"/>
+<wire x1="27.94" y1="81.28" x2="50.8" y2="81.28" width="0.1524" layer="91"/>
+<label x="33.02" y="81.28" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$18" class="0">
@@ -9004,6 +9069,26 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <pinref part="U$1" gate="G$1" pin="9/OC1A/PCINT1"/>
 <wire x1="157.48" y1="121.92" x2="124.46" y2="121.92" width="0.1524" layer="91"/>
 <label x="129.54" y="121.92" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="TS1" gate="-3" pin="S"/>
+<wire x1="27.94" y1="144.78" x2="50.8" y2="144.78" width="0.1524" layer="91"/>
+<label x="33.02" y="144.78" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="TS2" gate="-3" pin="S"/>
+<wire x1="27.94" y1="127" x2="50.8" y2="127" width="0.1524" layer="91"/>
+<label x="33.02" y="127" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="TS3" gate="-3" pin="S"/>
+<wire x1="27.94" y1="109.22" x2="50.8" y2="109.22" width="0.1524" layer="91"/>
+<label x="33.02" y="109.22" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="TS4" gate="-3" pin="S"/>
+<wire x1="27.94" y1="91.44" x2="50.8" y2="91.44" width="0.1524" layer="91"/>
+<label x="33.02" y="91.44" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="EXT_CS_IN" class="0">
@@ -9275,6 +9360,10 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <wire x1="157.48" y1="101.6" x2="124.46" y2="101.6" width="0.1524" layer="91"/>
 <label x="129.54" y="101.6" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="J1" gate="-1" pin="S"/>
+<wire x1="139.7" y1="81.28" x2="124.46" y2="81.28" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="A2" class="0">
 <segment>
@@ -9282,12 +9371,20 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <wire x1="157.48" y1="99.06" x2="124.46" y2="99.06" width="0.1524" layer="91"/>
 <label x="129.54" y="99.06" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="J1" gate="-2" pin="S"/>
+<wire x1="139.7" y1="76.2" x2="124.46" y2="76.2" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="A3" class="0">
 <segment>
 <pinref part="U$1" gate="G$1" pin="A3/ADC3/PCINT11"/>
 <wire x1="157.48" y1="96.52" x2="124.46" y2="96.52" width="0.1524" layer="91"/>
 <label x="129.54" y="96.52" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="J1" gate="-3" pin="S"/>
+<wire x1="139.7" y1="71.12" x2="124.46" y2="71.12" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="A6" class="0">
