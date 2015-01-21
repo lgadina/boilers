@@ -2182,6 +2182,8 @@ design rules under a new name.</description>
 <wire x1="37.2618" y1="29.21" x2="37.5412" y2="29.4894" width="0.6096" layer="16"/>
 <wire x1="34.29" y1="36.83" x2="34.29" y2="38.1" width="0.6096" layer="16"/>
 <wire x1="34.29" y1="38.1" x2="35.56" y2="39.37" width="0.6096" layer="16"/>
+<contactref element="IC1" pad="15"/>
+<wire x1="15.24" y1="21.59" x2="20.32" y2="36.83" width="0" layer="19" extent="16-16"/>
 </signal>
 <signal name="+5V" class="1">
 <contactref element="U$1" pad="VCC"/>
@@ -2221,7 +2223,6 @@ design rules under a new name.</description>
 <wire x1="46.99" y1="46.99" x2="57.15" y2="46.99" width="0.6096" layer="16"/>
 <wire x1="57.15" y1="46.99" x2="60.96" y2="50.8" width="0.6096" layer="16"/>
 <contactref element="IC2" pad="10"/>
-<contactref element="IC1" pad="15"/>
 <contactref element="IC1" pad="10"/>
 <contactref element="J1" pad="1"/>
 <via x="62.23" y="21.59" extent="1-16" drill="0.6" shape="square"/>
@@ -2234,7 +2235,6 @@ design rules under a new name.</description>
 <wire x1="76.2" y1="8.89" x2="76.2" y2="11.43" width="0.6096" layer="16"/>
 <wire x1="46.99" y1="46.99" x2="45.72" y2="46.99" width="0.6096" layer="16"/>
 <wire x1="45.72" y1="46.99" x2="45.72" y2="53.34" width="0.6096" layer="16"/>
-<wire x1="15.24" y1="19.05" x2="15.24" y2="21.59" width="0.6096" layer="16"/>
 <wire x1="76.2" y1="36.83" x2="76.2" y2="27.94" width="0.4064" layer="16"/>
 <wire x1="15.24" y1="34.29" x2="13.97" y2="34.29" width="0.6096" layer="16"/>
 <wire x1="36.83" y1="6.35" x2="19.05" y2="6.35" width="0.6096" layer="16"/>

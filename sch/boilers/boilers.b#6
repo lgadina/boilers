@@ -2091,21 +2091,21 @@ design rules under a new name.</description>
 <attribute name="MF" value="" x="34.29" y="31.75" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="OC_FARNELL" value="176432" x="34.29" y="31.75" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
-<element name="LED1" library="led" package="LED5MM" value="" x="21.59" y="-15.24" rot="R90"/>
+<element name="LED1" library="led" package="LED5MM" value="АЛ307Б" x="21.59" y="-15.24" rot="R90"/>
 <element name="R1" library="rcl" package="0207/10" value="510" x="39.37" y="-3.81" rot="R270"/>
-<element name="LED2" library="led" package="LED5MM" value="" x="29.21" y="-15.24" rot="R90"/>
+<element name="LED2" library="led" package="LED5MM" value="АЛ307Б" x="29.21" y="-15.24" rot="R90"/>
 <element name="R2" library="rcl" package="0207/10" value="510" x="41.91" y="-3.81" rot="R270"/>
-<element name="LED3" library="led" package="LED5MM" value="" x="36.83" y="-15.24" rot="R90"/>
+<element name="LED3" library="led" package="LED5MM" value="АЛ307Б" x="36.83" y="-15.24" rot="R90"/>
 <element name="R3" library="rcl" package="0207/10" value="510" x="44.45" y="-3.81" rot="R270"/>
-<element name="LED4" library="led" package="LED5MM" value="" x="44.45" y="-15.24" rot="R90"/>
+<element name="LED4" library="led" package="LED5MM" value="АЛ307Б" x="44.45" y="-15.24" rot="R90"/>
 <element name="R4" library="rcl" package="0207/10" value="510" x="46.99" y="-3.81" rot="R270"/>
-<element name="LED5" library="led" package="LED5MM" value="" x="52.07" y="-15.24" rot="R90"/>
+<element name="LED5" library="led" package="LED5MM" value="АЛ307Б" x="52.07" y="-15.24" rot="R90"/>
 <element name="R5" library="rcl" package="0207/10" value="510" x="49.53" y="-3.81" rot="R270"/>
-<element name="LED6" library="led" package="LED5MM" value="" x="59.69" y="-15.24" rot="R90"/>
+<element name="LED6" library="led" package="LED5MM" value="АЛ307Б" x="59.69" y="-15.24" rot="R90"/>
 <element name="R6" library="rcl" package="0207/10" value="510" x="52.07" y="-3.81" rot="R270"/>
-<element name="LED7" library="led" package="LED5MM" value="" x="67.31" y="-15.24" rot="R90"/>
+<element name="LED7" library="led" package="LED5MM" value="АЛ307Б" x="67.31" y="-15.24" rot="R90"/>
 <element name="R7" library="rcl" package="0207/10" value="510" x="54.61" y="-3.81" rot="R270"/>
-<element name="LED8" library="led" package="LED5MM" value="" x="74.93" y="-15.24" rot="R90"/>
+<element name="LED8" library="led" package="LED5MM" value="АЛ307Б" x="74.93" y="-15.24" rot="R90"/>
 <element name="R8" library="rcl" package="0207/10" value="510" x="57.15" y="-3.81" rot="R270"/>
 </elements>
 <signals>
@@ -2698,7 +2698,7 @@ design rules under a new name.</description>
 <approved hash="3,16,f44d2ba32b42f4ac"/>
 <approved hash="3,16,63e09c0e98cf6721"/>
 <approved hash="3,16,7af34f1948917d7b"/>
-<approved hash="3,16,f4ac1746189efb74"/>
+<approved hash="3,16,90ee3b003bd2903c"/>
 <approved hash="3,16,36c9182724130afd"/>
 <approved hash="3,16,fac4c42af81cc6f2"/>
 <approved hash="3,16,abbd59535a5da8b3"/>
@@ -2718,17 +2718,17 @@ design rules under a new name.</description>
 <approved hash="3,16,e8a732494c1996f7"/>
 <approved hash="3,16,c9d3633d621ec8f0"/>
 <approved hash="3,16,eba9fae383319b7e"/>
-<approved hash="3,16,2b84116e0e5b34b1"/>
-<approved hash="3,16,eb84116e0e58f4b2"/>
-<approved hash="3,16,ab84596e465cb4b6"/>
-<approved hash="3,16,ab84516e4e58b4b2"/>
-<approved hash="3,16,fb84116e0e5ae4b0"/>
+<approved hash="3,16,4a7654984b895567"/>
+<approved hash="3,16,9834aedab1c78729"/>
+<approved hash="3,16,f780996e8671e89f"/>
+<approved hash="3,16,f0769698898aef64"/>
+<approved hash="3,16,9236bcd8a3c48d2a"/>
 <approved hash="3,16,2b84516e4e5c34b6"/>
 <approved hash="3,16,ab84d96ec658b4b2"/>
-<approved hash="3,16,7b85136f0c5e64b4"/>
-<approved hash="3,16,eb84136e0c5af4b0"/>
-<approved hash="3,16,b0d78b01efd19cdc"/>
-<approved hash="3,16,3a9c3a763b533bb9"/>
+<approved hash="3,16,b18c53624c79ae97"/>
+<approved hash="3,16,80d62a3835269fc8"/>
+<approved hash="3,16,15573911a497b3b6"/>
+<approved hash="3,16,d221f0cfce1fecf1"/>
 <approved hash="3,16,6c3750dd504e6ca4"/>
 <approved hash="3,16,19952b77a0300e4d"/>
 <approved hash="3,16,3927facdf89a3b70"/>
@@ -2866,21 +2866,21 @@ design rules under a new name.</description>
 <approved hash="18,29,bd1606d86f3c2d9b"/>
 <approved hash="18,29,21e447172c37bf71"/>
 <approved hash="18,29,54cb4eae3729ed27"/>
-<approved hash="18,29,4fb94a4633a9c631"/>
-<approved hash="18,29,432117468b76fb72"/>
-<approved hash="18,29,58ec4ac8317bd98a"/>
 <approved hash="18,29,c142f8ce8d10b90f"/>
-<approved hash="18,29,b5fd6b9d70de0546"/>
-<approved hash="18,29,c5e47b0fae454e3c"/>
+<approved hash="18,29,4fb94a4633a9c631"/>
+<approved hash="18,29,58ec4ac8317bd98a"/>
+<approved hash="18,29,432117468b76fb72"/>
 <approved hash="18,29,31ff6b9570d28140"/>
 <approved hash="18,29,c5d07b1bae2dca4a"/>
 <approved hash="18,29,6a8c6d7d71deddd7"/>
 <approved hash="18,29,c5e07c0ba8519749"/>
+<approved hash="18,29,b5fd6b9d70de0546"/>
+<approved hash="18,29,c5e47b0fae454e3c"/>
 <approved hash="18,29,0024eadd71de30df"/>
 <approved hash="18,29,44857b8aafc27bd5"/>
-<approved hash="18,29,1113f50355796ee5"/>
 <approved hash="18,29,4a6af56d55813286"/>
 <approved hash="18,29,64cc741454c59c42"/>
+<approved hash="18,29,1113f50355796ee5"/>
 <approved hash="18,29,ce24f5295525b6a8"/>
 </errors>
 </board>
