@@ -142,8 +142,12 @@
 <wire x1="79.99" y1="-6.35" x2="79.99" y2="100" width="0" layer="20"/>
 <wire x1="79.99" y1="100" x2="-6.35" y2="100" width="0" layer="20"/>
 <wire x1="-6.35" y1="100" x2="-6.35" y2="-6.35" width="0" layer="20"/>
-<dimension x1="-6.35" y1="100.33" x2="80.01" y2="100.33" x3="36.83" y3="106.68" textsize="1.778" layer="47"/>
-<dimension x1="-6.35" y1="100" x2="-6.35" y2="-6.35" x3="-11.43" y3="46.825" textsize="1.778" layer="47"/>
+<dimension x1="-6.35" y1="-6.35" x2="-16.51" y2="189.23" x3="-30.48" y3="91.44" textsize="1.778" layer="47" dtype="vertical"/>
+<dimension x1="80.01" y1="-6.35" x2="-21.59" y2="-12.7" x3="29.21" y3="-11.43" textsize="1.778" layer="47" dtype="horizontal"/>
+<wire x1="-21.59" y1="-6.35" x2="80.01" y2="-6.35" width="0.254" layer="47"/>
+<wire x1="80.01" y1="-6.35" x2="80.01" y2="189.23" width="0.254" layer="47"/>
+<wire x1="80.01" y1="189.23" x2="-21.59" y2="189.23" width="0.254" layer="47"/>
+<wire x1="-21.59" y1="189.23" x2="-21.59" y2="-6.35" width="0.254" layer="47"/>
 </plain>
 <libraries>
 <library name="rcl">

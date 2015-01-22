@@ -105,23 +105,23 @@
 <layer number="154" name="FabDoc2" color="2" fill="1" visible="no" active="no"/>
 <layer number="155" name="FabDoc3" color="7" fill="15" visible="no" active="no"/>
 <layer number="199" name="Contour" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="200" name="200bmp" color="1" fill="10" visible="yes" active="yes"/>
+<layer number="200" name="200bmp" color="1" fill="10" visible="no" active="yes"/>
 <layer number="201" name="201bmp" color="2" fill="1" visible="no" active="no"/>
 <layer number="202" name="202bmp" color="3" fill="1" visible="no" active="no"/>
-<layer number="203" name="203bmp" color="4" fill="10" visible="yes" active="yes"/>
-<layer number="204" name="204bmp" color="5" fill="10" visible="yes" active="yes"/>
-<layer number="205" name="205bmp" color="6" fill="10" visible="yes" active="yes"/>
-<layer number="206" name="206bmp" color="7" fill="10" visible="yes" active="yes"/>
-<layer number="207" name="207bmp" color="8" fill="10" visible="yes" active="yes"/>
-<layer number="208" name="208bmp" color="9" fill="10" visible="yes" active="yes"/>
-<layer number="209" name="209bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="210" name="210bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="211" name="211bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="212" name="212bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="213" name="213bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="214" name="214bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="215" name="215bmp" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="216" name="216bmp" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="203" name="203bmp" color="4" fill="10" visible="no" active="yes"/>
+<layer number="204" name="204bmp" color="5" fill="10" visible="no" active="yes"/>
+<layer number="205" name="205bmp" color="6" fill="10" visible="no" active="yes"/>
+<layer number="206" name="206bmp" color="7" fill="10" visible="no" active="yes"/>
+<layer number="207" name="207bmp" color="8" fill="10" visible="no" active="yes"/>
+<layer number="208" name="208bmp" color="9" fill="10" visible="no" active="yes"/>
+<layer number="209" name="209bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="210" name="210bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="211" name="211bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="212" name="212bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="213" name="213bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="214" name="214bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="215" name="215bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="216" name="216bmp" color="7" fill="1" visible="no" active="yes"/>
 <layer number="217" name="217bmp" color="18" fill="1" visible="no" active="no"/>
 <layer number="218" name="218bmp" color="19" fill="1" visible="no" active="no"/>
 <layer number="219" name="219bmp" color="20" fill="1" visible="no" active="no"/>
@@ -2123,61 +2123,61 @@ design rules under a new name.</description>
 <element name="R5" library="rcl" package="0411/15" value="" x="48.26" y="8.89" rot="R270"/>
 <element name="R6" library="rcl" package="0411/15" value="" x="55.88" y="6.35" rot="R270"/>
 <element name="U$1" library="arduino" package="ARDUINOMINIPRO5V328" value="ARDUINOPROMINI5V328" x="34.29" y="52.07" rot="R180"/>
-<element name="RELAY" library="con-molex" package="6410-10" value="22-27-2101-10" x="36.83" y="93.98" rot="R180">
+<element name="RELAY" library="con-molex" package="6410-10" value="OUTPUT" x="36.83" y="93.98" rot="R180">
 <attribute name="OC_NEWARK" value="unknown" x="36.83" y="93.98" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="MPN" value="" x="36.83" y="93.98" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="MF" value="" x="36.83" y="93.98" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="OC_FARNELL" value="unknown" x="36.83" y="93.98" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
-<element name="DISPLAY" library="con-molex" package="6410-05" value="22-27-2051-05" x="60.96" y="93.98" rot="R180">
+<element name="DISPLAY" library="con-molex" package="6410-05" value="DISPLAY" x="60.96" y="93.98" rot="R180">
 <attribute name="OC_NEWARK" value="unknown" x="60.96" y="93.98" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="MPN" value="" x="60.96" y="93.98" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="MF" value="" x="60.96" y="93.98" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="OC_FARNELL" value="unknown" x="60.96" y="93.98" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
-<element name="CLOCK" library="con-molex" package="6410-05" value="22-27-2051-05" x="73.66" y="48.26" rot="R90">
+<element name="CLOCK" library="con-molex" package="6410-05" value="CLOCK" x="73.66" y="48.26" rot="R90">
 <attribute name="OC_NEWARK" value="unknown" x="73.66" y="48.26" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MPN" value="" x="73.66" y="48.26" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MF" value="" x="73.66" y="48.26" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="OC_FARNELL" value="unknown" x="73.66" y="48.26" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
-<element name="SD" library="con-molex" package="6410-06" value="22-27-2061-06" x="21.59" y="33.02">
+<element name="SD" library="con-molex" package="6410-06" value="SPI" x="21.59" y="33.02">
 <attribute name="OC_NEWARK" value="unknown" x="21.59" y="33.02" size="1.778" layer="27" display="off"/>
 <attribute name="MPN" value="" x="21.59" y="33.02" size="1.778" layer="27" display="off"/>
 <attribute name="MF" value="" x="21.59" y="33.02" size="1.778" layer="27" display="off"/>
 <attribute name="OC_FARNELL" value="unknown" x="21.59" y="33.02" size="1.778" layer="27" display="off"/>
 </element>
-<element name="INPUT" library="con-molex" package="6410-08" value="22-27-2081-08" x="5.08" y="5.08" rot="R270">
+<element name="INPUT" library="con-molex" package="6410-08" value="INPUT" x="5.08" y="5.08" rot="R270">
 <attribute name="OC_NEWARK" value="unknown" x="5.08" y="5.08" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MPN" value="" x="5.08" y="5.08" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MF" value="" x="5.08" y="5.08" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="OC_FARNELL" value="unknown" x="5.08" y="5.08" size="1.778" layer="27" rot="R270" display="off"/>
 </element>
-<element name="INPUT2" library="con-molex" package="6410-04" value="22-27-2041-04" x="12.7" y="93.98" rot="R180">
+<element name="INPUT2" library="con-molex" package="6410-04" value="INPUT" x="12.7" y="93.98" rot="R180">
 <attribute name="OC_NEWARK" value="unknown" x="12.7" y="93.98" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="MPN" value="" x="12.7" y="93.98" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="MF" value="" x="12.7" y="93.98" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="OC_FARNELL" value="unknown" x="12.7" y="93.98" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
-<element name="COM" library="con-molex" package="6410-03" value="22-27-2031-03" x="59.69" y="39.37" rot="R270">
+<element name="COM" library="con-molex" package="6410-03" value="COM" x="59.69" y="39.37" rot="R270">
 <attribute name="OC_NEWARK" value="unknown" x="59.69" y="39.37" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MPN" value="" x="59.69" y="39.37" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MF" value="" x="59.69" y="39.37" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="OC_FARNELL" value="unknown" x="59.69" y="39.37" size="1.778" layer="27" rot="R270" display="off"/>
 </element>
-<element name="RESET" library="con-molex" package="6410-02" value="22-27-2021-02" x="59.69" y="31.75" rot="R270">
+<element name="RESET" library="con-molex" package="6410-02" value="RESET" x="59.69" y="31.75" rot="R270">
 <attribute name="OC_NEWARK" value="unknown" x="59.69" y="31.75" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MPN" value="" x="59.69" y="31.75" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MF" value="" x="59.69" y="31.75" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="OC_FARNELL" value="unknown" x="59.69" y="31.75" size="1.778" layer="27" rot="R270" display="off"/>
 </element>
-<element name="POWER" library="con-molex" package="6410-02" value="22-27-2021-02" x="72.39" y="93.98" rot="R180">
+<element name="POWER" library="con-molex" package="6410-02" value="POWER" x="72.39" y="93.98" locked="yes" rot="R180">
 <attribute name="OC_NEWARK" value="unknown" x="72.39" y="93.98" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="MPN" value="" x="72.39" y="93.98" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="MF" value="" x="72.39" y="93.98" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="OC_FARNELL" value="unknown" x="72.39" y="93.98" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
-<element name="J1" library="con-molex" package="6410-03" value="22-27-2031-03" x="35.56" y="33.02">
+<element name="J1" library="con-molex" package="6410-03" value="А1-3" x="35.56" y="33.02">
 <attribute name="OC_NEWARK" value="unknown" x="35.56" y="33.02" size="1.778" layer="27" display="off"/>
 <attribute name="MPN" value="" x="35.56" y="33.02" size="1.778" layer="27" display="off"/>
 <attribute name="MF" value="" x="35.56" y="33.02" size="1.778" layer="27" display="off"/>
@@ -2207,7 +2207,7 @@ design rules under a new name.</description>
 <attribute name="MF" value="" x="74.93" y="5.08" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="OC_FARNELL" value="unknown" x="74.93" y="5.08" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
-<element name="J2" library="con-molex" package="6410-02" value="22-27-2021-02" x="10.16" y="33.02">
+<element name="J2" library="con-molex" package="6410-02" value="А6-7" x="10.16" y="33.02">
 <attribute name="OC_NEWARK" value="unknown" x="10.16" y="33.02" size="1.778" layer="27" display="off"/>
 <attribute name="MPN" value="" x="10.16" y="33.02" size="1.778" layer="27" display="off"/>
 <attribute name="MF" value="" x="10.16" y="33.02" size="1.778" layer="27" display="off"/>
@@ -2344,7 +2344,7 @@ design rules under a new name.</description>
 <wire x1="5.25" y1="26.75" x2="5.25" y2="36" width="0.8128" layer="16"/>
 <wire x1="5.25" y1="36" x2="15.22" y2="45.78" width="0.8128" layer="16"/>
 <wire x1="15.22" y1="45.78" x2="15.24" y2="49.53" width="0.8128" layer="16"/>
-<wire x1="27.94" y1="33.02" x2="30.48" y2="33.02" width="0.8128" layer="16"/>
+<wire x1="27.94" y1="33.02" x2="30.48" y2="33.02" width="1.6764" layer="16"/>
 <via x="30.48" y="33.02" extent="1-16" drill="0.6" shape="square"/>
 <wire x1="30.48" y1="33.02" x2="30.48" y2="25.4" width="0.8128" layer="1"/>
 <via x="30.48" y="25.4" extent="1-16" drill="0.6" shape="square"/>
