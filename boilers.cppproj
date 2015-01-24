@@ -1,0 +1,322 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>6.2</ProjectVersion>
+    <ToolchainName>com.Atmel.AVRGCC8.CPP</ToolchainName>
+    <ProjectGuid>{07b459b4-8d76-4638-bc6d-a459ba2d616b}</ProjectGuid>
+    <avrdevice>atmega328p</avrdevice>
+    <avrdeviceseries>none</avrdeviceseries>
+    <OutputType>Executable</OutputType>
+    <Language>CPP</Language>
+    <OutputFileName>$(MSBuildProjectName)</OutputFileName>
+    <OutputFileExtension>.elf</OutputFileExtension>
+    <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
+    <AssemblyName>boilers</AssemblyName>
+    <Name>boilers</Name>
+    <RootNamespace>boilers</RootNamespace>
+    <ToolchainFlavour>Native</ToolchainFlavour>
+    <KeepTimersRunning>true</KeepTimersRunning>
+    <OverrideVtor>false</OverrideVtor>
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
+    <eraseonlaunchrule>0</eraseonlaunchrule>
+    <ProgFlashFromRam>true</ProgFlashFromRam>
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
+    <CacheFlash>true</CacheFlash>
+    <UncachedRange />
+    <BootSegment>0</BootSegment>
+    <AsfFrameworkConfig>
+      <framework-data>
+        <options />
+        <configurations />
+        <files />
+        <documentation help="" />
+        <offline-documentation help="" />
+        <dependencies>
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.17.0" />
+        </dependencies>
+      </framework-data>
+    </AsfFrameworkConfig>
+    <avrtool>com.atmel.avrdbg.tool.simulator</avrtool>
+    <com_atmel_avrdbg_tool_simulator>
+      <ToolOptions xmlns="">
+        <InterfaceProperties>
+        </InterfaceProperties>
+      </ToolOptions>
+      <ToolType xmlns="">com.atmel.avrdbg.tool.simulator</ToolType>
+      <ToolNumber xmlns="">
+      </ToolNumber>
+      <ToolName xmlns="">Simulator</ToolName>
+    </com_atmel_avrdbg_tool_simulator>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <ToolchainSettings>
+      <AvrGccCpp>
+  <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+  <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+  <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+  <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
+  <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
+  <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+  <avrgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>__AVR_ATmega328p__</Value>
+      <Value>__AVR_ATmega328P__</Value>
+      <Value>ARDUINO=105</Value>
+      <Value>ARDUINO_MAIN</Value>
+      <Value>F_CPU=16000000L</Value>
+      <Value>__AVR__</Value>
+    </ListValues>
+  </avrgcc.compiler.symbols.DefSymbols>
+  <avrgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value></Value>
+      <Value>c:/program files (x86)/arduino/hardware/tools/avr/lib/gcc/avr/4.3.2/include/</Value>
+      <Value>c:/program files (x86)/arduino/hardware/tools/avr/avr/</Value>
+      <Value>c:/program files (x86)/arduino/hardware/tools/avr/avr/include/avr/</Value>
+      <Value>c:/program files (x86)/arduino/hardware/tools/avr/avr/include/</Value>
+      <Value>C:/Users/prosoft/Documents/Arduino/libraries</Value>
+      <Value>C:/Program Files (x86)/Visual Micro/Visual Micro for Arduino/Micro Platforms/default/debuggers</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/libraries</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/ArduinoSerialCommand/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/ArduinoSerialCommand</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/RTClib/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/RTClib</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Wire/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Wire</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/LedControl/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/LedControl</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/OneWire/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/OneWire</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/FileLogger/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/FileLogger</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/SD/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/SD</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/variants/standard</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/cores/arduino</Value>
+    </ListValues>
+  </avrgcc.compiler.directories.IncludePaths>
+  <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
+  <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+  <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+  <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
+  <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+  <avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>
+  <avrgcccpp.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>__AVR_ATmega328p__</Value>
+      <Value>__AVR_ATmega328P__</Value>
+      <Value>ARDUINO=105</Value>
+      <Value>ARDUINO_MAIN</Value>
+      <Value>F_CPU=16000000L</Value>
+      <Value>__AVR__</Value>
+    </ListValues>
+  </avrgcccpp.compiler.symbols.DefSymbols>
+  <avrgcccpp.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value></Value>
+      <Value>c:/program files (x86)/arduino/hardware/tools/avr/lib/gcc/avr/4.3.2/include/</Value>
+      <Value>c:/program files (x86)/arduino/hardware/tools/avr/avr/</Value>
+      <Value>c:/program files (x86)/arduino/hardware/tools/avr/avr/include/avr/</Value>
+      <Value>c:/program files (x86)/arduino/hardware/tools/avr/avr/include/</Value>
+      <Value>C:/Users/prosoft/Documents/Arduino/libraries</Value>
+      <Value>C:/Program Files (x86)/Visual Micro/Visual Micro for Arduino/Micro Platforms/default/debuggers</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/libraries</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/ArduinoSerialCommand/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/ArduinoSerialCommand</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/RTClib/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/RTClib</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Wire/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Wire</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/LedControl/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/LedControl</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/OneWire/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/OneWire</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/FileLogger/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/FileLogger</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/SD/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/SD</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/variants/standard</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/cores/arduino</Value>
+    </ListValues>
+  </avrgcccpp.compiler.directories.IncludePaths>
+  <avrgcccpp.compiler.optimization.level>Optimize for size (-Os)</avrgcccpp.compiler.optimization.level>
+  <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
+  <avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>
+  <avrgcccpp.compiler.optimization.DebugLevel>Default (-g2)</avrgcccpp.compiler.optimization.DebugLevel>
+  <avrgcccpp.compiler.warnings.AllWarnings>True</avrgcccpp.compiler.warnings.AllWarnings>
+  <avrgcccpp.linker.libraries.Libraries>
+    <ListValues>
+      <Value>SD.h</Value>
+      <Value>AnyPCPWM.h</Value>
+      <Value>digitalPortsFast.h</Value>
+      <Value>FileLogger.h</Value>
+    </ListValues>
+  </avrgcccpp.linker.libraries.Libraries>
+  <avrgcccpp.linker.libraries.LibrarySearchPaths>
+    <ListValues>
+      <Value>C:\Program Files (x86)\Arduino\libraries\SD</Value>
+      <Value>C:\HOME\boilers</Value>
+      <Value>C:\HOME\boilers\FileLogger</Value>
+    </ListValues>
+  </avrgcccpp.linker.libraries.LibrarySearchPaths>
+  <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
+</AvrGccCpp>
+    </ToolchainSettings>
+    <VMSETTING_IncludePaths>C:/Program Files (x86)/Arduino/hardware/arduino/cores/arduino;C:/Program Files (x86)/Arduino/hardware/arduino/variants/standard;C:/Program Files (x86)/Arduino/libraries/SD;C:/Program Files (x86)/Arduino/libraries/SD/utility;C:/Program Files (x86)/Arduino/libraries/OneWire;C:/Program Files (x86)/Arduino/libraries/OneWire/utility;C:/Program Files (x86)/Arduino/libraries/LedControl;C:/Program Files (x86)/Arduino/libraries/LedControl/utility;C:/Program Files (x86)/Arduino/libraries/Wire;C:/Program Files (x86)/Arduino/libraries/Wire/utility;C:/Program Files (x86)/Arduino/libraries/RTClib;C:/Program Files (x86)/Arduino/libraries/RTClib/utility;C:/Program Files (x86)/Arduino/libraries/ArduinoSerialCommand;C:/Program Files (x86)/Arduino/libraries/ArduinoSerialCommand/utility;C:/Program Files (x86)/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/libraries;C:/Program Files (x86)/Visual Micro/Visual Micro for Arduino/Micro Platforms/default/debuggers;C:/Users/prosoft/Documents/Arduino/libraries;c:/program files (x86)/arduino/hardware/tools/avr/avr/include/;c:/program files (x86)/arduino/hardware/tools/avr/avr/include/avr/;c:/program files (x86)/arduino/hardware/tools/avr/avr/;c:/program files (x86)/arduino/hardware/tools/avr/lib/gcc/avr/4.3.2/include/;;C:/Program Files (x86)/Arduino/libraries/FileLogger;C:/Program Files (x86)/Arduino/libraries/FileLogger/utility;</VMSETTING_IncludePaths>
+    <VisualMicroSettings>
+      <VisualMicroSettings xmlns="">
+        <arduino.upload.port>COM1</arduino.upload.port>
+      </VisualMicroSettings>
+    </VisualMicroSettings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <ToolchainSettings>
+      <AvrGccCpp>
+  <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+  <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+  <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+  <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
+  <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
+  <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+  <avrgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>__AVR_ATmega328p__</Value>
+      <Value>__AVR_ATmega328P__</Value>
+      <Value>ARDUINO=105</Value>
+      <Value>ARDUINO_MAIN</Value>
+      <Value>F_CPU=16000000L</Value>
+      <Value>__AVR__</Value>
+    </ListValues>
+  </avrgcc.compiler.symbols.DefSymbols>
+  <avrgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value></Value>
+      <Value>c:/program files (x86)/arduino/hardware/tools/avr/lib/gcc/avr/4.3.2/include/</Value>
+      <Value>c:/program files (x86)/arduino/hardware/tools/avr/avr/</Value>
+      <Value>c:/program files (x86)/arduino/hardware/tools/avr/avr/include/avr/</Value>
+      <Value>c:/program files (x86)/arduino/hardware/tools/avr/avr/include/</Value>
+      <Value>C:/Users/prosoft/Documents/Arduino/libraries</Value>
+      <Value>C:/Program Files (x86)/Visual Micro/Visual Micro for Arduino/Micro Platforms/default/debuggers</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/libraries</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/ArduinoSerialCommand/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/ArduinoSerialCommand</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/RTClib/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/RTClib</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Wire/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Wire</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/LedControl/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/LedControl</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/OneWire/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/OneWire</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/FileLogger/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/FileLogger</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/SD/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/SD</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/variants/standard</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/cores/arduino</Value>
+    </ListValues>
+  </avrgcc.compiler.directories.IncludePaths>
+  <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
+  <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+  <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+  <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
+  <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+  <avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>
+  <avrgcccpp.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>__AVR_ATmega328p__</Value>
+      <Value>__AVR_ATmega328P__</Value>
+      <Value>ARDUINO=105</Value>
+      <Value>ARDUINO_MAIN</Value>
+      <Value>F_CPU=16000000L</Value>
+      <Value>__AVR__</Value>
+    </ListValues>
+  </avrgcccpp.compiler.symbols.DefSymbols>
+  <avrgcccpp.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value></Value>
+      <Value>c:/program files (x86)/arduino/hardware/tools/avr/lib/gcc/avr/4.3.2/include/</Value>
+      <Value>c:/program files (x86)/arduino/hardware/tools/avr/avr/</Value>
+      <Value>c:/program files (x86)/arduino/hardware/tools/avr/avr/include/avr/</Value>
+      <Value>c:/program files (x86)/arduino/hardware/tools/avr/avr/include/</Value>
+      <Value>C:/Users/prosoft/Documents/Arduino/libraries</Value>
+      <Value>C:/Program Files (x86)/Visual Micro/Visual Micro for Arduino/Micro Platforms/default/debuggers</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/libraries</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/ArduinoSerialCommand/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/ArduinoSerialCommand</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/RTClib/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/RTClib</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Wire/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/Wire</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/LedControl/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/LedControl</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/OneWire/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/OneWire</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/FileLogger/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/FileLogger</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/SD/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries/SD</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/variants/standard</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/cores/arduino</Value>
+    </ListValues>
+  </avrgcccpp.compiler.directories.IncludePaths>
+  <avrgcccpp.compiler.optimization.level>Optimize for size (-Os)</avrgcccpp.compiler.optimization.level>
+  <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
+  <avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>
+  <avrgcccpp.compiler.optimization.DebugLevel>Default (-g2)</avrgcccpp.compiler.optimization.DebugLevel>
+  <avrgcccpp.compiler.warnings.AllWarnings>True</avrgcccpp.compiler.warnings.AllWarnings>
+  <avrgcccpp.linker.libraries.Libraries>
+    <ListValues>
+      <Value>SD.h</Value>
+      <Value>AnyPCPWM.h</Value>
+      <Value>digitalPortsFast.h</Value>
+      <Value>FileLogger.h</Value>
+    </ListValues>
+  </avrgcccpp.linker.libraries.Libraries>
+  <avrgcccpp.linker.libraries.LibrarySearchPaths>
+    <ListValues>
+      <Value>C:\Program Files (x86)\Arduino\libraries\SD</Value>
+      <Value>C:\HOME\boilers</Value>
+      <Value>C:\HOME\boilers\FileLogger</Value>
+    </ListValues>
+  </avrgcccpp.linker.libraries.LibrarySearchPaths>
+  <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
+</AvrGccCpp>
+    </ToolchainSettings>
+    <VMSETTING_IncludePaths>C:/Program Files (x86)/Arduino/hardware/arduino/cores/arduino;C:/Program Files (x86)/Arduino/hardware/arduino/variants/standard;C:/Program Files (x86)/Arduino/libraries/SD;C:/Program Files (x86)/Arduino/libraries/SD/utility;C:/Program Files (x86)/Arduino/libraries/OneWire;C:/Program Files (x86)/Arduino/libraries/OneWire/utility;C:/Program Files (x86)/Arduino/libraries/LedControl;C:/Program Files (x86)/Arduino/libraries/LedControl/utility;C:/Program Files (x86)/Arduino/libraries/Wire;C:/Program Files (x86)/Arduino/libraries/Wire/utility;C:/Program Files (x86)/Arduino/libraries/RTClib;C:/Program Files (x86)/Arduino/libraries/RTClib/utility;C:/Program Files (x86)/Arduino/libraries/ArduinoSerialCommand;C:/Program Files (x86)/Arduino/libraries/ArduinoSerialCommand/utility;C:/Program Files (x86)/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/libraries;C:/Program Files (x86)/Visual Micro/Visual Micro for Arduino/Micro Platforms/default/debuggers;C:/Users/prosoft/Documents/Arduino/libraries;c:/program files (x86)/arduino/hardware/tools/avr/avr/include/;c:/program files (x86)/arduino/hardware/tools/avr/avr/include/avr/;c:/program files (x86)/arduino/hardware/tools/avr/avr/;c:/program files (x86)/arduino/hardware/tools/avr/lib/gcc/avr/4.3.2/include/;;C:/Program Files (x86)/Arduino/libraries/FileLogger;C:/Program Files (x86)/Arduino/libraries/FileLogger/utility;</VMSETTING_IncludePaths>
+    <VisualMicroSettings>
+      <VisualMicroSettings xmlns="">
+        <arduino.upload.port>COM1</arduino.upload.port>
+      </VisualMicroSettings>
+    </VisualMicroSettings>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="boilers.ino">
+      <SubType>compile</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Visual Micro\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AnyPCPWM.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="digitalPortsFast.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Visual Micro\.boilers.vsarduino.h">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
+</Project>
