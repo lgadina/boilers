@@ -1,4 +1,6 @@
-#define FILE_LOGGER
+//define FAST_PORT
+
+//define FILE_LOGGER
 
 #ifdef FILE_LOGGER
 #undef SD_CARD
@@ -10,21 +12,29 @@
 
 #define SERIAL_COMMAND
 #define USE_RTC
+
+#ifdef FAST_PORT
 #define _PWM_PIN_15
 #define _useTimer2
+#endif
 
 #include <avr/pgmspace.h>
 
 #ifdef SD_CARD
 #include <SD.h>
 #endif
+
 #ifdef FILE_LOGGER
 #include <FileLogger.h>
 #endif
+
 #include <OneWire.h>
 #include <LedControl.h>
 #include <Wire.h>
+
+#ifdef FAST_PORT
 #include "AnyPCPWM.h"
+#endif
 
 #ifdef USE_RTC
 #include <RTClib.h>
@@ -263,6 +273,41 @@ short pump_off_delay = 0;
 DateTime now;
 #endif
 
+#ifdef FAST_PORT
+void shiftOutFast(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val)
+{
+	uint8_t i;
+
+	for (i = 0; i < 8; i++)  {
+		if (bitOrder == LSBFIRST)
+		digitalWriteFast(dataPin, !!(val & (1 << i)));
+		else
+		digitalWriteFast(dataPin, !!(val & (1 << (7 - i))));
+		
+		digitalWriteFast(clockPin, HIGH);
+		digitalWriteFast(clockPin, LOW);
+	}
+}
+
+uint8_t shiftInFast(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder) {
+	uint8_t value = 0;
+	uint8_t i;
+
+	for (i = 0; i < 8; ++i) {
+		digitalWriteFast(clockPin, HIGH);
+		if (bitOrder == LSBFIRST)
+		value |= digitalReadFast(dataPin) << i;
+		else
+		value |= digitalReadFast(dataPin) << (7 - i);
+		digitalWriteFast(clockPin, LOW);
+	}
+	return value;
+}
+
+#endif
+
+
+
 void SerialPrint(int cStr){
 	char buffer[30];
 	strcpy_P(buffer, (char*)pgm_read_word(&(string_table[cStr])));
@@ -300,6 +345,7 @@ void i2c_eeprom_write_byte( int deviceaddress, unsigned int eeaddress, byte data
 
 // WARNING: address is a page address, 6-bit end will wrap around
 // also, data can be maximum of about 30 bytes, because the Wire library has a buffer of 32 bytes
+/*
 void i2c_eeprom_write_buffer( int deviceaddress, unsigned int eeaddresspage, byte* data, byte length ) {
 	Wire.beginTransmission(deviceaddress);
 	Wire.write((int)(eeaddresspage >> 8)); // MSB
@@ -312,6 +358,7 @@ void i2c_eeprom_write_buffer( int deviceaddress, unsigned int eeaddresspage, byt
 	Wire.endTransmission();
 	delay(10);
 }
+*/
 
 byte i2c_eeprom_read_byte( int deviceaddress, unsigned int eeaddress ) {
 	byte rdata = 0xFF;
@@ -325,6 +372,7 @@ byte i2c_eeprom_read_byte( int deviceaddress, unsigned int eeaddress ) {
 }
 
 // maybe let's not read more than 30 or 32 bytes at a time!
+/*
 void i2c_eeprom_read_buffer( int deviceaddress, unsigned int eeaddress, byte *buffer, int length ) {
 	Wire.beginTransmission(deviceaddress);
 	Wire.write((int)(eeaddress >> 8)); // MSB
@@ -335,6 +383,7 @@ void i2c_eeprom_read_buffer( int deviceaddress, unsigned int eeaddress, byte *bu
 	for ( c = 0; c < length; c++ )
 	if (Wire.available()) buffer[c] = Wire.read();
 }
+*/
 
 void clear_led() {
 	int devices=lc.getDeviceCount();
@@ -478,7 +527,7 @@ void get_and_display_temp() {
 
 	byte i;
 	byte present = 0;
-	uint8_t addr[8];
+	//uint8_t addr[8];
 	uint8_t data[9];
 	char sign;
 	set_led_point(true);
@@ -493,9 +542,9 @@ void get_and_display_temp() {
 	for (int r=0; r<ts_count; r++) {
 		
 		present = ds.reset();
-		memcpy(addr, temp_sensor[r].addr, sizeof(addr));
+		//memcpy(addr, temp_sensor[r].addr, sizeof(addr));
 		
-		ds.select(addr);
+		ds.select(temp_sensor[r].addr);
 		ds.write(0xBE);         // Read Scratchpad
 		for ( i = 0; i < 9; i++) {           // we need 9 bytes
 			data[i] = ds.read();
@@ -922,11 +971,19 @@ char get_temp_at_display(byte disp) {
 	return TEMP_ERROR;
 }
 
+
 void out_relay_state() {
+#ifdef FAST_PORT
+	digitalWriteFast(EXT_CLOCK, LOW);
+	digitalWriteFast(EXT_CLOCK, LOW);
+	shiftOutFast(EXT_DATA_OUT, EXT_CLOCK, MSBFIRST, ~relay_state);
+	digitalWriteFast(EXT_CS, HIGH);
+#else	
 	digitalWrite(EXT_CLOCK, LOW);
 	digitalWrite(EXT_CS, LOW);
 	shiftOut(EXT_DATA_OUT, EXT_CLOCK, MSBFIRST, ~relay_state);
 	digitalWrite(EXT_CS, HIGH);
+#endif	
 }
 
 boolean set_boiler_on () {
@@ -1068,11 +1125,19 @@ void printState() {
 
 
 byte get_input_data() {
+#ifdef FAST_PORT
+	digitalWriteFast(EXT_CS_IN, LOW);
+	digitalWriteFast(EXT_CLOCK, LOW);
+	digitalWriteFast(EXT_CLOCK, HIGH);
+	digitalWriteFast(EXT_CS_IN, HIGH);
+	byte data = shiftInFast(EXT_DATA_IN, EXT_CLOCK, LSBFIRST);
+#else	
 	digitalWrite(EXT_CS_IN, LOW);
 	digitalWrite(EXT_CLOCK, LOW);
 	digitalWrite(EXT_CLOCK, HIGH);
 	digitalWrite(EXT_CS_IN, HIGH);
 	byte data = shiftIn(EXT_DATA_IN, EXT_CLOCK, LSBFIRST);
+#endif	
 	return data;
 }
 
@@ -1304,15 +1369,27 @@ void tube_power() {
 }
 
 void setup(void) {
+	
+#ifdef FAST_PORT
 	setup_pc_pwm_any();
-	pinMode(EXT_CS_IN, OUTPUT);
-	digitalWrite(EXT_CS_IN, HIGH);
+	pinModeFast(EXT_CS_IN, OUTPUT);
+	pinModeFast(EXT_DATA_IN, INPUT);
+	pinModeFast(EXT_CS, OUTPUT);	
+	pinModeFast(EXT_CLOCK, OUTPUT);
+	pinModeFast(EXT_DATA_OUT, OUTPUT);	
+	digitalWriteFast(EXT_CS_IN, HIGH);
+	digitalWriteFast(EXT_CS, HIGH);
+#else	
+	pinMode(EXT_CS_IN, OUTPUT);	
 	pinMode(EXT_DATA_IN, INPUT);
-	pinMode(EXT_CS, OUTPUT);
-	//	pinMode(A2, OUTPUT);
-	digitalWrite(EXT_CS, HIGH);
+	pinMode(EXT_CS, OUTPUT);	
 	pinMode(EXT_CLOCK, OUTPUT);
-	pinMode(EXT_DATA_OUT, OUTPUT);
+	pinMode(EXT_DATA_OUT, OUTPUT);	
+	digitalWrite(EXT_CS_IN, HIGH);
+	digitalWrite(EXT_CS, HIGH);
+#endif	
+	//	pinMode(A2, OUTPUT);
+	
 	set_boiler_off(FORCE);
 	pump_off();
 	Serial.begin(9600);
@@ -1410,10 +1487,10 @@ void loop(void) {
 		log_data();
 	}
 	
-	analogWriteAny(15, test_val);
+	//		analogWriteAny(15, test_val);
 	//		Serial.println(test_val);
-	test_val--;
-	if (test_val == 0) test_val = 1023;
+	//test_val--;
+	//if (test_val == 0) test_val = 1023;
 	
 	if ((boiler_state & BOILER_TIMER_ON) > 0) {
 		lc.setChar(2, 7, 'b', true);
