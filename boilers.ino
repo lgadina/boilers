@@ -1,3 +1,4 @@
+#define SOFT_SERIAL
 //define FAST_PORT
 
 //define FILE_LOGGER
@@ -17,7 +18,7 @@
 #define _PWM_PIN_15
 #define _useTimer2
 #endif
-
+#include <SoftwareSerial.h>
 #include <avr/pgmspace.h>
 
 #ifdef SD_CARD
@@ -235,9 +236,21 @@ LedControl lc=LedControl(LED_DATA_PIN, LED_CLOCK_PIN, LED_CS_PIN, 3);
 RTC_DS1307 rtc;
 #endif
 
+#ifdef SOFT_SERIAL
+SoftwareSerial MySerial(A1, A2);
+#else
+HardwareSerial MySerial = Serial;
+#endif
+
+
 #ifdef SERIAL_COMMAND
+#ifdef SOFT_SERIAL
+SerialCommand SCmd(MySerial);
+#else
 SerialCommand SCmd;
 #endif
+#endif
+
 
 #if(MAX_TEMP_SENSOR == 4)
 const byte cTempDisplay[MAX_TEMP_SENSOR] = {0x08, 0x04, 0x18, 0x14};
@@ -311,13 +324,13 @@ uint8_t shiftInFast(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder) {
 void SerialPrint(int cStr){
 	char buffer[30];
 	strcpy_P(buffer, (char*)pgm_read_word(&(string_table[cStr])));
-	Serial.print(buffer);
+	MySerial.print(buffer);
 }
 
 void SerialPrintln(int cStr){
 	char buffer[30];
 	strcpy_P(buffer, (char*)pgm_read_word(&(string_table[cStr])));
-	Serial.println(buffer);
+	MySerial.println(buffer);
 }
 
 
@@ -394,9 +407,9 @@ void clear_led() {
 
 void Serial_print_buffer(byte *buf, int sz) {
 	for (int i=0; i < sz; i++) {
-		Serial.print(buf[i], HEX);
+		MySerial.print(buf[i], HEX);
 	}
-	Serial.println();
+	MySerial.println();
 }
 
 void save_config(unsigned int startaddr, byte *buffer, int sz) {
@@ -469,10 +482,10 @@ void search_ds() {
 			if (type_s) {
 				SerialPrint(cstrROM);
 				for( int i = 0; i < 8; i++) {
-					Serial.write(ccolon);
-					Serial.print(addr[i], HEX);
+					MySerial.write(ccolon);
+					MySerial.print(addr[i], HEX);
 				}
-				Serial.println();
+				MySerial.println();
 				memcpy(temp_sensor[k].addr, addr, sizeof(addr));
 				temp_sensor[k].disp = cTempDisplay[k];
 				temp_sensor[k].flags = TS_ON | type_s;
@@ -490,9 +503,9 @@ void search_ds() {
 	}
 	ds.reset_search();
 	SerialPrint(cstrFounded);
-	Serial.println(k);
+	MySerial.println(k);
 	ts_count = k;
-	Serial.println(cpoint);
+	MySerial.println(cpoint);
 }
 
 
@@ -641,11 +654,11 @@ void save_ts_config() {
 		{
 			memset(ts_mem_item, 0, sizeof(ts_mem_item));
 		}
-		Serial.write(cstar);
+		MySerial.write(cstar);
 		save_config(memaddr, ts_mem_item, sizeof(ts_mem_item));
 		//    i2c_eeprom_write_buffer(EEPROM_CFG, memaddr, ts_mem_item, sizeof(ts_mem_item));
 	}
-	Serial.println(cpoint);
+	MySerial.println(cpoint);
 }
 
 void load_ts_config() {
@@ -665,9 +678,9 @@ void load_ts_config() {
 			}
 			temp_sensor[ts_idx].disp = cTempDisplay[i];
 		}
-		Serial.write(cstar);
+		MySerial.write(cstar);
 	}
-	Serial.println(cpoint);
+	MySerial.println(cpoint);
 }
 
 #ifdef SERIAL_COMMAND
@@ -723,8 +736,8 @@ void cmd_boiler() {
 				max_water_temp = maxtemp;
 			}
 			maxtemp = i2c_eeprom_read_byte(EEPROM_CFG, MAX_OUT_TEMP_ADDR);
-			Serial.println(maxtemp, DEC);
-			Serial.println(cpoint);
+			MySerial.println(maxtemp, DEC);
+			MySerial.println(cpoint);
 			
 		} else
 		if (strcmp(arg, "pd") == 0) {
@@ -738,8 +751,8 @@ void cmd_boiler() {
 				i2c_eeprom_write_byte(EEPROM_CFG, PUMP_OFF_DELAY_ADDR, pd);
 			}
 			pd = i2c_eeprom_read_byte(EEPROM_CFG, PUMP_OFF_DELAY_ADDR);
-			Serial.println(pd, DEC);
-			Serial.println(cpoint);
+			MySerial.println(pd, DEC);
+			MySerial.println(cpoint);
 		} else
 		if (strcmp(arg, "off") == 0) {
 			//boiler_off(true);
@@ -760,8 +773,8 @@ void cmd_boiler() {
 			}
 			else
 			{
-				Serial.println(antifreeze_temp);
-				Serial.println(cpoint);
+				MySerial.println(antifreeze_temp);
+				MySerial.println(cpoint);
 			}
 		} else
 		{
@@ -805,18 +818,18 @@ void cmd_datetime () {
 	}
 	
 	now = rtc.now();
-	Serial.print(now.hour());
-	Serial.write(ccolon);
-	Serial.print(now.minute());
-	Serial.write(ccolon);
-	Serial.print(now.second());
-	Serial.write(cspace);
-	Serial.print(now.day());
-	Serial.print(cpoint);
-	Serial.print(now.month());
-	Serial.print(cpoint);
-	Serial.println(now.year());
-	Serial.println(cpoint);
+	MySerial.print(now.hour());
+	MySerial.write(ccolon);
+	MySerial.print(now.minute());
+	MySerial.write(ccolon);
+	MySerial.print(now.second());
+	MySerial.write(cspace);
+	MySerial.print(now.day());
+	MySerial.print(cpoint);
+	MySerial.print(now.month());
+	MySerial.print(cpoint);
+	MySerial.println(now.year());
+	MySerial.println(cpoint);
 	
 }
 #endif
@@ -838,23 +851,23 @@ void list_temp_sensor(){
 	
 	if (strcmp(arg, "ls") == 0) {
 		for (byte i = 0; i < ts_count; i++) {
-			Serial.print("ts");
-			Serial.print(i);
-			Serial.write('=');
+			MySerial.print("ts");
+			MySerial.print(i);
+			MySerial.write('=');
 			for (byte k = 0; k < 8; k++) {
-				Serial.print(temp_sensor[i].addr[k], HEX);
+				MySerial.print(temp_sensor[i].addr[k], HEX);
 			}
-			Serial.write(ccomma);
-			Serial.print(temp_sensor[i].temp[0], DEC);
-			Serial.write(cpoint);
-			Serial.print(temp_sensor[i].temp[1], DEC);
-			Serial.write(ccomma);
-			Serial.print(temp_sensor[i].temp[2], DEC);
-			Serial.write(ccomma);
-			Serial.print(temp_sensor[i].disp, HEX);
-			Serial.write(ccomma);
-			Serial.print(temp_sensor[i].flags, HEX);
-			Serial.println(csemicolon);
+			MySerial.write(ccomma);
+			MySerial.print(temp_sensor[i].temp[0], DEC);
+			MySerial.write(cpoint);
+			MySerial.print(temp_sensor[i].temp[1], DEC);
+			MySerial.write(ccomma);
+			MySerial.print(temp_sensor[i].temp[2], DEC);
+			MySerial.write(ccomma);
+			MySerial.print(temp_sensor[i].disp, HEX);
+			MySerial.write(ccomma);
+			MySerial.print(temp_sensor[i].flags, HEX);
+			MySerial.println(csemicolon);
 		}
 	} else
 	if (strcmp(arg, "corr") == 0) {
@@ -1110,17 +1123,17 @@ int freeRam () {
 
 void printState() {
 	SerialPrint(cstrBOILER);
-	Serial.write(cspace);
+	MySerial.write(cspace);
 	SerialPrintln(is_boiler_on() ? cstrON : cstrOFF);
 	SerialPrint(cstrPUMP);
-	Serial.write(cspace);
+	MySerial.write(cspace);
 	SerialPrintln(is_pump_on() ? cstrON : cstrOFF);
 	if (is_boiler_timer_on()) {
 		SerialPrint(cstrBOILER_TIMER);
-		Serial.write(ccolon);
-		Serial.println(boiler_timer);
+		MySerial.write(ccolon);
+		MySerial.println(boiler_timer);
 	}
-	Serial.println(cpoint);
+	MySerial.println(cpoint);
 }
 
 
@@ -1171,11 +1184,11 @@ boolean is_external_boiler_on(byte state) {
 void input_data () {
 	byte new_in_state = get_input_data();
 	if (new_in_state != in_state) {
-		Serial.println();
-		Serial.print("Old state:");
-		Serial.println(in_state, DEC);
-		Serial.print("New state:");
-		Serial.println(new_in_state, DEC);
+		MySerial.println();
+		MySerial.print("Old state:");
+		MySerial.println(in_state, DEC);
+		MySerial.print("New state:");
+		MySerial.println(new_in_state, DEC);
 		
 		if ((new_in_state & INPUT_PS_MODE) != 0) {
 			power_save_mode = true;
@@ -1392,13 +1405,14 @@ void setup(void) {
 	
 	set_boiler_off(FORCE);
 	pump_off();
-	Serial.begin(9600);
-	
+	MySerial.begin(9600);
+	MySerial.println("Startup boiler control");
 	while (!Serial) {
 		;
 	}
+	
 	SerialPrint(cstrFreeMemory);
-	Serial.println(freeRam(), DEC);
+	MySerial.println(freeRam(), DEC);
 	SerialPrintln(cstrLoadAndInit);
 	Wire.begin();
 	#ifdef USE_RTC
@@ -1409,7 +1423,7 @@ void setup(void) {
 		SerialPrintln(cstrRTCIsNotRunning);
 		//rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
 	}
-	Serial.println(cpoint);
+	MySerial.println(cpoint);
 	#endif
 
 	#ifdef SERIAL_COMMAND
@@ -1429,7 +1443,7 @@ void setup(void) {
 	SerialPrintln(cstrLedInitAndTest);
 	byte intensity = i2c_eeprom_read_byte(EEPROM_CFG, INTENSITY_ADDR);
 	init_and_test_led(intensity);
-	Serial.println(cpoint);
+	MySerial.println(cpoint);
 	
 	#ifdef SD_CARD
 	SerialPrintln(cstrInitSD);
@@ -1439,7 +1453,7 @@ void setup(void) {
 	{
 		SerialPrintln(cstrOK);
 	}
-	Serial.println(cpoint);
+	MySerial.println(cpoint);
 	#endif
 
 	max_water_temp = i2c_eeprom_read_byte(EEPROM_CFG, MAX_OUT_TEMP_ADDR);
@@ -1488,7 +1502,7 @@ void loop(void) {
 	}
 	
 	//		analogWriteAny(15, test_val);
-	//		Serial.println(test_val);
+	//		MySerial.println(test_val);
 	//test_val--;
 	//if (test_val == 0) test_val = 1023;
 	
@@ -1515,5 +1529,6 @@ void loop(void) {
 	input_data();
 	tube_power();
 	check_boiler();
+	
 }
 
