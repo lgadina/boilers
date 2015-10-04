@@ -4388,6 +4388,7 @@ W = angled&lt;p&gt;
 <part name="J1" library="con-molex" deviceset="22-?-03" device="27-2031"/>
 <part name="SV1" library="con-lsta" deviceset="FE07-1" device=""/>
 <part name="J2" library="con-molex" deviceset="22-?-02" device="27-2021"/>
+<part name="J3" library="con-molex" deviceset="22-?-03" device="27-2031"/>
 </parts>
 <sheets>
 <sheet>
@@ -4409,6 +4410,9 @@ W = angled&lt;p&gt;
 <instance part="SV1" gate="G$1" x="68.58" y="111.76" rot="R180"/>
 <instance part="J2" gate="-1" x="66.04" y="40.64"/>
 <instance part="J2" gate="-2" x="66.04" y="35.56"/>
+<instance part="J3" gate="-1" x="66.04" y="27.94"/>
+<instance part="J3" gate="-2" x="66.04" y="22.86"/>
+<instance part="J3" gate="-3" x="66.04" y="17.78"/>
 </instances>
 <busses>
 </busses>
@@ -4438,10 +4442,13 @@ W = angled&lt;p&gt;
 <pinref part="SV1" gate="G$1" pin="7"/>
 <wire x1="60.96" y1="104.14" x2="53.34" y2="104.14" width="0.1524" layer="91"/>
 <wire x1="53.34" y1="104.14" x2="53.34" y2="58.42" width="0.1524" layer="91"/>
-<pinref part="J2" gate="-1" pin="S"/>
-<wire x1="63.5" y1="40.64" x2="40.64" y2="40.64" width="0.1524" layer="91"/>
-<wire x1="40.64" y1="40.64" x2="40.64" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="40.64" y1="35.56" x2="40.64" y2="58.42" width="0.1524" layer="91"/>
 <junction x="40.64" y="58.42"/>
+<pinref part="J3" gate="-1" pin="S"/>
+<wire x1="63.5" y1="27.94" x2="53.34" y2="27.94" width="0.1524" layer="91"/>
+<wire x1="53.34" y1="27.94" x2="53.34" y2="58.42" width="0.1524" layer="91"/>
+<pinref part="J2" gate="-2" pin="S"/>
+<wire x1="40.64" y1="35.56" x2="63.5" y2="35.56" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$2" class="0">
@@ -4490,10 +4497,14 @@ W = angled&lt;p&gt;
 <junction x="50.8" y="106.68"/>
 <pinref part="SV1" gate="G$1" pin="6"/>
 <wire x1="60.96" y1="106.68" x2="50.8" y2="106.68" width="0.1524" layer="91"/>
-<wire x1="50.8" y1="53.34" x2="50.8" y2="35.56" width="0.1524" layer="91"/>
-<pinref part="J2" gate="-2" pin="S"/>
-<wire x1="50.8" y1="35.56" x2="63.5" y2="35.56" width="0.1524" layer="91"/>
+<wire x1="50.8" y1="53.34" x2="50.8" y2="40.64" width="0.1524" layer="91"/>
 <junction x="50.8" y="53.34"/>
+<pinref part="J3" gate="-2" pin="S"/>
+<wire x1="50.8" y1="40.64" x2="50.8" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="63.5" y1="22.86" x2="50.8" y2="22.86" width="0.1524" layer="91"/>
+<pinref part="J2" gate="-1" pin="S"/>
+<wire x1="63.5" y1="40.64" x2="50.8" y2="40.64" width="0.1524" layer="91"/>
+<junction x="50.8" y="40.64"/>
 </segment>
 </net>
 <net name="N$4" class="0">
@@ -4521,6 +4532,15 @@ W = angled&lt;p&gt;
 <wire x1="30.48" y1="111.76" x2="30.48" y2="78.74" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="(ADC3)PB4"/>
 <wire x1="30.48" y1="78.74" x2="25.4" y2="78.74" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$6" class="0">
+<segment>
+<pinref part="J3" gate="-3" pin="S"/>
+<wire x1="63.5" y1="17.78" x2="27.94" y2="17.78" width="0.1524" layer="91"/>
+<wire x1="27.94" y1="17.78" x2="27.94" y2="81.28" width="0.1524" layer="91"/>
+<pinref part="IC1" gate="G$1" pin="(ADC0)PB5"/>
+<wire x1="27.94" y1="81.28" x2="25.4" y2="81.28" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
